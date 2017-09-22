@@ -8,14 +8,15 @@
 import scrapy
 
 
-class SummitSpiderItem(scrapy.Item):
+class SummitItem(scrapy.Item):
   # define the fields for your item here like:
   # name = scrapy.Field()
-  title = scapy.Field()
-  speakers = scapy.Field()
-  desc = scapy.Field()
-  video_link = scapy.Field()
-  video_dl_link = scapy.Field()
-  slide_link = scapy.Field()
+  title = scrapy.Field()
+  speakers = scrapy.Field()
+  category = scrapy.Field()
+  desc = scrapy.Field()
+  video_link = scrapy.Field()
+  video_dl_link = scrapy.Field()
+  slide_link = scrapy.Field()
 
   pass
