@@ -1,0 +1,3 @@
+To run selenium without popup firefox, please invoke following two commands first:
+> Xvfb :99 &
+> export DISPLAY=:99

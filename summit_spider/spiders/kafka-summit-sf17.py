@@ -2,7 +2,6 @@ import scrapy
 from scrapy.http import Request
 from scrapy.loader import ItemLoader
 from summit_spider.items import *
-import re
 
 def gen_cookie_map(cstr):
   cmap = {}
@@ -14,14 +13,6 @@ def gen_cookie_map(cstr):
 def extract_speaker_info(speaker_str):
   (name, corp) = speaker_str.rsplit(',', 1)
   return (name.strip(), corp.strip())
-
-def extract_basename(video_link):
-  basename = ''
-  l = re.findall('.*/video/(\d*)?.*', video_link)
-  if len(l) > 0: 
-    basename = l[0]
-  return basename
-     
 
 class KafkaSpider(scrapy.Spider):
   name = "kafka-summit-sf17"
@@ -92,7 +83,7 @@ class KafkaSpider(scrapy.Spider):
     slide['dl_link'] = ''
     summit['video'] = video
     summit['slide'] = slide
-    summit['base_fname'] = extract_basename(video_link)
+    summit['base_fname'] = ''
     yield summit
 
 
