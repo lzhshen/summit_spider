@@ -29,42 +29,50 @@ class KafkaSpider(scrapy.Spider):
 
   def parse(self, response):
     # extract keynote section
-#    for topic in response.xpath("//div[@class='featured_kafka_summit']/ul/li"):
-#      (speaker, title) = topic.xpath(".//text()").extract_first().split(" - ")
-#      yield {
-#        'title': title.strip(),
-#        'speaker': speaker.strip(),
-#        'link': topic.xpath("./a/@href").extract_first().strip(),
-#        'desc': "",
-#        'category': "keynote",
-#      }
+    for topic in response.xpath("//div[@class='featured_kafka_summit']/ul/li"):
+      (speaker_str, title_str) = topic.xpath(".//text()").extract_first().split(" - ")
+      summit = SummitItem()
+      summit['title'] = title_str.strip()
+      summit['desc'] = ''
+      summit['tag'] = 'keynote'
+      speaker = SpeakerItem()
+      (speaker['name'], speaker['corp']) = extract_speaker_info(speaker_str)
+      speaker['bio'] = ''
+      summit['speakers'] = []
+      summit['speakers'].append(speaker)
+      video_link = topic.xpath("./a/@href").extract_first().strip()
+      # send request to video page
+      request = Request(url=video_link, 
+                        meta={'summit': summit},
+                        cookies=gen_cookie_map(self.confluent_cookie_str), 
+                        callback=self.parse_video_page)
+      yield request
       
 
-    # extract other sections
-    for s in self.sections:
-      for topic in response.xpath("//section[@id=$sectionId]/div/ul/li", sectionId=s):
-        summit = SummitItem()
-        li = topic.xpath("div[@class='resource_description']/div//text() | div[@class='resource_description']//text()").extract()
-        desc = ''.join(li).strip()
-        video_link = topic.xpath("div[@class='right']/a/@href").extract_first().strip()
-        summit['title'] = topic.xpath(".//div/a/p/text()").extract_first().strip()
-        summit['desc'] = desc
-        summit['tag'] = s
-        summit['speakers'] = []
-        speakers_str = topic.xpath("div/p/text()").extract_first()
-        for speaker_str in speakers_str.split(';'):
-          speaker = SpeakerItem()
-          (speaker['name'], speaker['corp']) = extract_speaker_info(speaker_str)
-          speaker['bio'] = ''
-          summit['speakers'].append(speaker)
-
-        # send request to video page
-        request = Request(url=video_link, 
-                          meta={'summit': summit},
-                          cookies=gen_cookie_map(self.confluent_cookie_str), 
-                          callback=self.parse_video_page)
-        yield request
-        #break
+#    # extract other sections
+#    for s in self.sections:
+#      for topic in response.xpath("//section[@id=$sectionId]/div/ul/li", sectionId=s):
+#        summit = SummitItem()
+#        li = topic.xpath("div[@class='resource_description']/div//text() | div[@class='resource_description']//text()").extract()
+#        desc = ''.join(li).strip()
+#        video_link = topic.xpath("div[@class='right']/a/@href").extract_first().strip()
+#        summit['title'] = topic.xpath(".//div/a/p/text()").extract_first().strip()
+#        summit['desc'] = desc
+#        summit['tag'] = s
+#        summit['speakers'] = []
+#        speakers_str = topic.xpath("div/p/text()").extract_first()
+#        for speaker_str in speakers_str.split(';'):
+#          speaker = SpeakerItem()
+#          (speaker['name'], speaker['corp']) = extract_speaker_info(speaker_str)
+#          speaker['bio'] = ''
+#          summit['speakers'].append(speaker)
+#
+#        # send request to video page
+#        request = Request(url=video_link, 
+#                          meta={'summit': summit},
+#                          cookies=gen_cookie_map(self.confluent_cookie_str), 
+#                          callback=self.parse_video_page)
+#        yield request
 
   def parse_video_page(self, response):
     summit = response.request.meta['summit']

@@ -35,6 +35,8 @@ class SummitSpiderPipeline(object):
     fp.set_preference('network.proxy.ssl_port', int(self._PROXY['port']))
     fp.set_preference('network.proxy.socks', self._PROXY['host'])
     fp.set_preference('network.proxy.socks_port', int(self._PROXY['port']))
+    fp.set_preference('network.proxy.ftp', self._PROXY['host'])
+    fp.set_preference('network.proxy.ftp_port', int(self._PROXY['port']))
     fp.set_preference('network.proxy.no_proxies_on', 'localhost, 127.0.0.1')
     credentials = '{usr}:{pwd}'.format(**self._PROXY)
     credentials = b64encode(credentials.encode('ascii')).decode('utf-8')
