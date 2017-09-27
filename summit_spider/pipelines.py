@@ -14,6 +14,9 @@ from selenium.webdriver.common.by import By
 from bs4 import BeautifulSoup
 from base64 import b64encode
 import re
+import logging
+
+logger = logging.getLogger(__name__)
 
 def extract_basename(video_link):
   basename = ''
@@ -25,6 +28,8 @@ def extract_basename(video_link):
 
 class SummitSpiderPipeline(object):
   _PROXY = {'host': '127.0.0.1', 'port': '8780', 'usr': 'pico', 'pwd': 'pico2009server'}
+  _regex_youtube = r'.*youtube\.com.*'
+  _regex_vimeo = r'.*player\.vimeo\.com.*'
   def open_spider(self, spider):
     fp = webdriver.FirefoxProfile()
 
@@ -44,23 +49,37 @@ class SummitSpiderPipeline(object):
     self._driver = webdriver.Firefox(firefox_profile=fp)
 
   def process_item(self, item, spider):
-    src_link = item['video']['src_link']
-    if src_link:
-      self._driver.get("https://en.savefrom.net")
-      # submit video url
-      inputElement = WebDriverWait(self._driver, 30).until(EC.presence_of_element_located((By.ID, "sf_url")))
-      inputElement.clear()
-      inputElement.send_keys(src_link)
-      inputElement.submit()
+    ## get base namefor the item ##
 
-      # fetch video download link
-      linkDiv = WebDriverWait(self._driver, 30).until(EC.presence_of_element_located((By.CLASS_NAME, "def-btn-box")))
-      link = linkDiv.find_elements_by_xpath(".//a")
-      if link:
-        dl_link = link[0].get_attribute("href")
-        # TODO: Do not store video download link here
-        item['video']['dl_link'] = '' 
-        item['base_fname'] = extract_basename(dl_link)
+    self._driver.get("https://en.savefrom.net")
+    # submit video url
+    src_link = item['video']['src_link']
+    inputElement = WebDriverWait(self._driver, 30).until(EC.presence_of_element_located((By.ID, "sf_url")))
+    inputElement.clear()
+    inputElement.send_keys(src_link)
+    inputElement.submit()
+
+    # fetch video download link
+    linkDiv = WebDriverWait(self._driver, 30).until(EC.presence_of_element_located((By.CLASS_NAME, "def-btn-box")))
+    link = linkDiv.find_elements_by_xpath(".//a")
+
+    # store video download link and get item's base name
+    if link:
+      dl_link = link[0].get_attribute("href")
+      if re.match(self._regex_vimeo, src_link):
+          item['video']['dl_link'] = dl_link
+          item['base_fname'] = extract_basename(dl_link)
+      elif re.match(self._regex_youtube, src_link):
+        fname = re.sub(r'[^A-Z^a-z^0-9^]',r' ', item['title'])
+        fname = re.sub(' +','_', fname.strip())
+        video_title_str = "%s%s" % ("&title=", fname)
+        item['base_fname'] = fname
+        item['video']['dl_link'] = re.sub(r'&title=.*$', video_title_str, dl_link) 
+      else:
+        logger.warning("The item's base name is empty as the video is neither from youtube not from vimeo!")
+        pass
+    else:
+      logger.warning("Cannot fetch video download link")
 
     return item
 
