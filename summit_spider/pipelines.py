@@ -21,8 +21,8 @@ logger = logging.getLogger(__name__)
 
 class SummitSpiderPipeline(object):
   _PROXY = {'host': '127.0.0.1', 'port': '8780', 'usr': 'pico', 'pwd': 'pico2009server'}
-  _regex_youtube = r'.*(youtube\.com|youtu\.be).*'
-  _regex_vimeo = r'.*player\.vimeo\.com.*'
+
+
   def open_spider(self, spider):
     fp = webdriver.FirefoxProfile()
 
@@ -59,11 +59,11 @@ class SummitSpiderPipeline(object):
     # store video download link and get item's base name
     if link:
       dl_link = link[0].get_attribute("href")
-      if re.match(self._regex_vimeo, src_link):
+      if isVimeoVideo(src_link):
           item['video']['dl_link'] = dl_link
           # update base_fname for video from vimeo
           item['base_fname'] = extract_basename(dl_link)
-      elif re.match(self._regex_youtube, src_link):
+      elif isYoutubeVideo(src_link):
         video_title_str = "%s%s" % ("&title=", item['base_fname'])
         item['video']['dl_link'] = re.sub(r'&title=.*$', video_title_str, dl_link) 
       else:

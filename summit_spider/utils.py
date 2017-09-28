@@ -25,3 +25,13 @@ def extract_basename(video_link):
     basename = l[0]
   return basename
 
+def isYoutubeVideo(link):
+  import re
+  regex = r'.*(youtube\.com|youtu\.be).*'
+  return re.match(regex, link)
+
+def isVimeoVideo(link):
+  import re
+  regex = r'.*player\.vimeo\.com.*'
+  return re.match(regex, link)
+
