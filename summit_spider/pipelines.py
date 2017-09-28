@@ -68,15 +68,10 @@ class SummitSpiderPipeline(object):
       dl_link = link[0].get_attribute("href")
       if re.match(self._regex_vimeo, src_link):
           item['video']['dl_link'] = dl_link
+          # update base_fname for video from vimeo
           item['base_fname'] = extract_basename(dl_link)
       elif re.match(self._regex_youtube, src_link):
-        fname = re.sub(r'[^A-Z^a-z^0-9^]',r' ', item['title'])
-        logger.warning("fname1: %s" % (fname))
-        fname = re.sub(' +','_', fname.strip())
-        logger.warning("fname2: %s" % (fname))
-        video_title_str = "%s%s" % ("&title=", fname)
-        logger.warning("video_title_str: %s" % (video_title_str))
-        item['base_fname'] = fname
+        video_title_str = "%s%s" % ("&title=", item['base_fname'])
         item['video']['dl_link'] = re.sub(r'&title=.*$', video_title_str, dl_link) 
       else:
         logger.warning("The item's base name is empty as the video is neither from youtube not from vimeo!")
