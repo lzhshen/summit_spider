@@ -2,17 +2,7 @@ import scrapy
 from scrapy.http import Request
 from scrapy.loader import ItemLoader
 from summit_spider.items import *
-
-def gen_cookie_map(cstr):
-  cmap = {}
-  for pair in cstr.split(';'):
-    (key, value) = pair.split('=', 1)
-    cmap[key.strip()] = value.strip()
-  return cmap
-
-def extract_speaker_info(speaker_str):
-  (name, corp) = speaker_str.rsplit(',', 1)
-  return (name.strip(), corp.strip())
+from summit_spider.utils import *
 
 class KafkaSpider(scrapy.Spider):
   name = "kafka-summit-sf17"
