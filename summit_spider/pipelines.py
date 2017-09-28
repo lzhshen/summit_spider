@@ -28,7 +28,7 @@ def extract_basename(video_link):
 
 class SummitSpiderPipeline(object):
   _PROXY = {'host': '127.0.0.1', 'port': '8780', 'usr': 'pico', 'pwd': 'pico2009server'}
-  _regex_youtube = r'.*youtube\.com.*'
+  _regex_youtube = r'.*(youtube\.com|youtu\.be).*'
   _regex_vimeo = r'.*player\.vimeo\.com.*'
   def open_spider(self, spider):
     fp = webdriver.FirefoxProfile()
@@ -71,8 +71,11 @@ class SummitSpiderPipeline(object):
           item['base_fname'] = extract_basename(dl_link)
       elif re.match(self._regex_youtube, src_link):
         fname = re.sub(r'[^A-Z^a-z^0-9^]',r' ', item['title'])
+        logger.warning("fname1: %s" % (fname))
         fname = re.sub(' +','_', fname.strip())
+        logger.warning("fname2: %s" % (fname))
         video_title_str = "%s%s" % ("&title=", fname)
+        logger.warning("video_title_str: %s" % (video_title_str))
         item['base_fname'] = fname
         item['video']['dl_link'] = re.sub(r'&title=.*$', video_title_str, dl_link) 
       else:
