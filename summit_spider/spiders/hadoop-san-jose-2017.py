@@ -4,7 +4,6 @@ from scrapy.loader import ItemLoader
 from summit_spider.items import *
 from summit_spider.utils import *
 import logging
-import re
 
 logger = logging.getLogger(__name__)
 

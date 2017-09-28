@@ -15,16 +15,9 @@ from bs4 import BeautifulSoup
 from base64 import b64encode
 import re
 import logging
+from summit_spider.utils import *
 
 logger = logging.getLogger(__name__)
-
-def extract_basename(video_link):
-  basename = ''
-  l = re.findall('.*/(\d*).mp4.*', video_link)
-  if len(l) > 0:
-    basename = l[0]
-  return basename
-
 
 class SummitSpiderPipeline(object):
   _PROXY = {'host': '127.0.0.1', 'port': '8780', 'usr': 'pico', 'pwd': 'pico2009server'}

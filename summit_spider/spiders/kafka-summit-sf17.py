@@ -63,7 +63,6 @@ class KafkaSpider(scrapy.Spider):
                           cookies=gen_cookie_map(self.confluent_cookie_str), 
                           callback=self.parse_video_page)
         yield request
-        break
 
   def parse_video_page(self, response):
     summit = response.request.meta['summit']
