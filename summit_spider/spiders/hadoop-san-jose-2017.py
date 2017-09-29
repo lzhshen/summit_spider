@@ -52,38 +52,18 @@ class HadoopSpider(scrapy.Spider):
       summit['video'] = video
       summit['slide'] = slide
 
-      yield summit
-      break
+      desc_link = session.xpath(".//a[@class='no-highlight']/@href").extract_first()
+      if desc_link:
+        # send request to description page
+        request = Request(url=desc_link, 
+                          meta={'summit': summit},
+                          callback=self.parse_description_page)
+        yield request
 
-      #video_link = session.xpath(".//a/@href").extract_first()
-#      # send request to video page
-#      request = Request(url=video_link, 
-#                        meta={'summit': summit},
-#                        callback=self.parse_video_page)
-#      yield request
-      
-
-  def parse_video_page(self, response):
+  def parse_description_page(self, response):
     summit = response.request.meta['summit']
     l = ItemLoader(summit=SummitItem(), response=response)
 
-    link_list = response.xpath("//div[@class='generic_content']/div/div//iframe/@src").extract()
-    (video_link, slide_link) = ('', '')
-    if link_list:
-      (video_link, slide_link) = link_list
-
-    video = VideoItem()
-    video['src_link'] = video_link
-    video['dl_link'] = ''
-    slide = SlideItem()
-    slide['src_link'] = slide_link
-    slide['dl_link'] = ''
-    summit['video'] = video
-    summit['slide'] = slide
-    summit['base_fname'] = ''
+    desc_list = response.xpath("//article//p/text()").extract()
+    summit['desc'] = "\n".join(desc_list)
     yield summit
-
-
-      
-
-
