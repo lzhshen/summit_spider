@@ -59,6 +59,7 @@ class HadoopSpider(scrapy.Spider):
                           meta={'summit': summit},
                           callback=self.parse_description_page)
         yield request
+      break
 
   def parse_description_page(self, response):
     summit = response.request.meta['summit']
