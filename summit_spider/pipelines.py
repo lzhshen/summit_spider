@@ -5,12 +5,6 @@
 # Don't forget to add your pipeline to the ITEM_PIPELINES setting
 # See: http://doc.scrapy.org/en/latest/topics/item-pipeline.html
 
-from selenium import webdriver
-from selenium.common.exceptions import TimeoutException
-from selenium.webdriver.support.ui import WebDriverWait # available since 2.4.0
-from selenium.webdriver.support import expected_conditions as EC # available since 2.26.0
-from selenium.webdriver.common.proxy import *
-from selenium.webdriver.common.by import By
 from bs4 import BeautifulSoup
 from base64 import b64encode
 import re
@@ -18,6 +12,8 @@ import logging
 from summit_spider.utils import *
 import glob
 import requests
+import os
+from lxml import html as _parse
 
 logger = logging.getLogger(__name__)
 
@@ -29,32 +25,8 @@ def getExcludeSet(dir, suffix):
 
 
 class SummitSpiderPipeline(object):
-  _PROXY = {'host': '127.0.0.1', 'port': '8780', 'usr': 'pico', 'pwd': 'pico2009server'}
-
 
   def open_spider(self, spider):
-    fp = webdriver.FirefoxProfile()
-  
-    # set proxy type
-    proxy_type = 0
-    if hasattr('spider', 'proxy_type'):
-      proxy_type = int(spider.proxy_type) 
-    fp.set_preference('network.proxy.type', proxy_type)
-
-    fp.set_preference('network.proxy.http', self._PROXY['host'])
-    fp.set_preference('network.proxy.http_port', int(self._PROXY['port']))
-    fp.set_preference('network.proxy.ssl', self._PROXY['host'])
-    fp.set_preference('network.proxy.ssl_port', int(self._PROXY['port']))
-    fp.set_preference('network.proxy.socks', self._PROXY['host'])
-    fp.set_preference('network.proxy.socks_port', int(self._PROXY['port']))
-    fp.set_preference('network.proxy.ftp', self._PROXY['host'])
-    fp.set_preference('network.proxy.ftp_port', int(self._PROXY['port']))
-    fp.set_preference('network.proxy.no_proxies_on', 'localhost, 127.0.0.1')
-    credentials = '{usr}:{pwd}'.format(**self._PROXY)
-    credentials = b64encode(credentials.encode('ascii')).decode('utf-8')
-    fp.set_preference('extensions.closeproxyauth.authtoken', credentials)
-    self._driver = webdriver.Firefox(firefox_profile=fp)
-
     self._video_dir = "%s/%s" % (spider.dst_dir, "videos")
     self._video_set = getExcludeSet(self._video_dir, ".mp4")
 
@@ -64,30 +36,12 @@ class SummitSpiderPipeline(object):
   def process_item(self, item, spider):
 
     ### download video file ###
-    video_name = "%s.mp4" % (item['base_fname'])
+    video_name = "%s/%s.mp4" % (self._video_dir, item['base_fname'])
     video_link = item['video']['src_link']
     if video_link and (video_name not in self._video_set):
-      self._driver.get("https://en.savefrom.net")
-      # submit video url
-      src_link = item['video']['src_link']
-      inputElement = WebDriverWait(self._driver, 30).until(EC.presence_of_element_located((By.ID, "sf_url")))
-      inputElement.clear()
-      inputElement.send_keys(src_link)
-      inputElement.submit()
-
-      # fetch video download link
-      linkDiv = WebDriverWait(self._driver, 30).until(EC.presence_of_element_located((By.CLASS_NAME, "def-btn-box")))
-      link = linkDiv.find_elements_by_xpath(".//a")
-
-      # download video file
-      if link:
-        dl_link = link[0].get_attribute("href")
-        fullname = "%s/%s" % (self._video_dir, video_name)
-        self.dl_file(dl_link, fullname)
-      else:
-        logger.warning("Cannot fetch video download link for %s" % (video_name))
-    else:
-      logger.info("Video(%s.mp4) is either exist or has no video link.")
+      cmd_str = "/usr/local/bin/youtube-dl -o %s %s" % (video_name, video_link)
+      logger.info(">>>> execute cmd: %s" % (cmd_str))
+      os.system(cmd_str)
 
     # download pdf file
     slide_name = "%s.pdf" % (item['base_fname'])
@@ -125,7 +79,7 @@ class SummitSpiderPipeline(object):
       return
     
   def close_spider(self, spider):
-    self._driver.quit()
+    pass
 
 class PdfSlideDownloaderUtils():
     _RETRY_NUM = 5

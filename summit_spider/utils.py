@@ -35,3 +35,11 @@ def isVimeoVideo(link):
   regex = r'.*player\.vimeo\.com.*'
   return re.match(regex, link)
 
+def repairSlideLink(link):
+  import re
+  regex = r'^\/\/.*' # missing 'https:'
+  link_ok= link
+  if re.match(regex, link):
+    link_ok = "https:%s" % (link)
+  return link_ok 
+
