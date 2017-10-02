@@ -46,7 +46,7 @@ class SummitSpiderPipeline(object):
       video_name = "%s/%s.mp4" % (self._video_dir, item['base_fname'])
       video_link = item['video']['src_link']
       if video_link and (video_name not in self._video_set):
-        cmd_str = "/usr/local/bin/youtube-dl -o %s %s" % (video_name, video_link)
+        cmd_str = "/usr/local/bin/youtube-dl -o %s %s > /dev/null" % (video_name, video_link)
         logger.info(">>>> execute cmd: %s" % (cmd_str))
         os.system(cmd_str)
 

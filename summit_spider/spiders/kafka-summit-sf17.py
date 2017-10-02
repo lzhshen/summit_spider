@@ -83,8 +83,6 @@ class KafkaSpider(scrapy.Spider):
     video['dl_link'] = ''
     slide = SlideItem()
     slide['src_link'] = repairSlideLink(slide_link)
-    logger.error("----- src_link:%s \n" % (slide_link))
-    logger.error("----- link_ok:%s \n" % (slide['src_link']))
     slide['dl_link'] = ''
     summit['video'] = video
     summit['slide'] = slide
