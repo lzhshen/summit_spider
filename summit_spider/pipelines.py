@@ -33,33 +33,41 @@ class SummitSpiderPipeline(object):
     self._slide_dir = "%s/%s" % (spider.dst_dir, "slides")
     self._slide_set = getExcludeSet(self._slide_dir, ".pdf")
 
+    self._dl_type_list = []
+    if hasattr(spider, 'dl_type'):
+      self._dl_type_list.append(spider.dl_type)
+    else:
+      self._dl_type_list = ['slide', 'video']
+
   def process_item(self, item, spider):
 
-    ### download video file ###
-    video_name = "%s/%s.mp4" % (self._video_dir, item['base_fname'])
-    video_link = item['video']['src_link']
-    if video_link and (video_name not in self._video_set):
-      cmd_str = "/usr/local/bin/youtube-dl -o %s %s" % (video_name, video_link)
-      logger.info(">>>> execute cmd: %s" % (cmd_str))
-      os.system(cmd_str)
+    if 'video' in self._dl_type_list:
+      ### download video file ###
+      video_name = "%s/%s.mp4" % (self._video_dir, item['base_fname'])
+      video_link = item['video']['src_link']
+      if video_link and (video_name not in self._video_set):
+        cmd_str = "/usr/local/bin/youtube-dl -o %s %s" % (video_name, video_link)
+        logger.info(">>>> execute cmd: %s" % (cmd_str))
+        os.system(cmd_str)
 
-    # download pdf file
-    slide_name = "%s.pdf" % (item['base_fname'])
-    slide_link = item['slide']['src_link']
-    if slide_link and (slide_name not in self._slide_set):
-      link_list = PdfSlideDownloaderUtils.fetchImageUrlInfo(slide_link)
-      i = 1
-      for link in link_list:
-        img_fname = "%03d.jpg" % (i)
-        img_tmp_dir = "/tmp/pdfimg/%s" % (item['base_fname'])
-        if not os.path.exists(img_tmp_dir): os.mkdir(img_tmp_dir)
-        img_full_fname = "%s/%s" % (img_tmp_dir, img_fname)
-        self.dl_file(link, img_full_fname)
-        i += 1
+    if 'slide' in self._dl_type_list:
+      # download pdf file
+      slide_name = "%s.pdf" % (item['base_fname'])
+      slide_link = item['slide']['src_link']
+      if slide_link and (slide_name not in self._slide_set):
+        link_list = PdfSlideDownloaderUtils.fetchImageUrlInfo(slide_link)
+        i = 1
+        for link in link_list:
+          img_fname = "%03d.jpg" % (i)
+          img_tmp_dir = "/tmp/pdfimg/%s" % (item['base_fname'])
+          if not os.path.exists(img_tmp_dir): os.mkdir(img_tmp_dir)
+          img_full_fname = "%s/%s" % (img_tmp_dir, img_fname)
+          self.dl_file(link, img_full_fname)
+          i += 1
 
-      cmd_str = "convert %s/*.jpg* %s/%s" % (img_tmp_dir, self._slide_dir, slide_name)
-      print "       %s" % (cmd_str)
-      os.system(cmd_str)
+        cmd_str = "convert %s/*.jpg* %s/%s" % (img_tmp_dir, self._slide_dir, slide_name)
+        print "       %s" % (cmd_str)
+        os.system(cmd_str)
 
     return item
 
