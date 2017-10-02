@@ -14,6 +14,7 @@ import glob
 import requests
 import os
 from lxml import html as _parse
+from subprocess import call
 
 logger = logging.getLogger(__name__)
 
@@ -48,7 +49,9 @@ class SummitSpiderPipeline(object):
       if video_link and (video_name not in self._video_set):
         cmd_str = "/usr/local/bin/youtube-dl -o %s %s > /dev/null" % (video_name, video_link)
         logger.info(">>>> execute cmd: %s" % (cmd_str))
-        os.system(cmd_str)
+        rc = call(cmd_str, shell=True)
+        if rc:
+          logger.info("Failed to execute:%s" % (cmd_str))
 
     if 'slide' in self._dl_type_list:
       # download pdf file
@@ -65,9 +68,11 @@ class SummitSpiderPipeline(object):
           self.dl_file(link, img_full_fname)
           i += 1
 
-        cmd_str = "convert %s/*.jpg* %s/%s" % (img_tmp_dir, self._slide_dir, slide_name)
+        cmd_str = "/usr/bin/convert %s/*.jpg* %s/%s" % (img_tmp_dir, self._slide_dir, slide_name)
         print "       %s" % (cmd_str)
-        os.system(cmd_str)
+        rc = call(cmd_str, shell=True)
+        if rc:
+          logger.info("Failed to execute:%s" % (cmd_str))
 
     return item
 
