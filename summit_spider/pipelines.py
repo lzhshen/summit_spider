@@ -14,7 +14,9 @@ import glob
 import requests
 import os
 from lxml import html as _parse
-from subprocess import call
+import subprocess, shlex
+from threading import Timer
+
 
 logger = logging.getLogger(__name__)
 
@@ -24,6 +26,17 @@ def getExcludeSet(dir, suffix):
     exclude_set = set(files)
     return exclude_set
 
+
+def run(cmd, timeout_sec=10):
+  proc = subprocess.Popen(shlex.split(cmd), stdout=subprocess.PIPE,
+    stderr=subprocess.PIPE)
+  kill_proc = lambda p: p.kill()
+  timer = Timer(timeout_sec, kill_proc, [proc])
+  try:
+    timer.start()
+    stdout,stderr = proc.communicate()
+  finally:
+    timer.cancel()
 
 class SummitSpiderPipeline(object):
 
@@ -47,11 +60,9 @@ class SummitSpiderPipeline(object):
       video_name = "%s/%s.mp4" % (self._video_dir, item['base_fname'])
       video_link = item['video']['src_link']
       if video_link and (video_name not in self._video_set):
-        cmd_str = "/usr/local/bin/youtube-dl -o %s %s > /dev/null" % (video_name, video_link)
+        cmd_str = "/usr/local/bin/youtube-dl -o %s %s" % (video_name, video_link)
         logger.info(">>>> execute cmd: %s" % (cmd_str))
-        rc = call(cmd_str, shell=True)
-        if rc:
-          logger.info("Failed to execute:%s" % (cmd_str))
+        run(cmd_str, 300)
 
     if 'slide' in self._dl_type_list:
       # download pdf file
@@ -70,9 +81,7 @@ class SummitSpiderPipeline(object):
 
         cmd_str = "/usr/bin/convert %s/*.jpg* %s/%s" % (img_tmp_dir, self._slide_dir, slide_name)
         print "       %s" % (cmd_str)
-        rc = call(cmd_str, shell=True)
-        if rc:
-          logger.info("Failed to execute:%s" % (cmd_str))
+        run(cmd_str, 30)
 
     return item
 
