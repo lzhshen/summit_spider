@@ -5,6 +5,12 @@
 # Don't forget to add your pipeline to the ITEM_PIPELINES setting
 # See: http://doc.scrapy.org/en/latest/topics/item-pipeline.html
 
+from selenium import webdriver
+from selenium.common.exceptions import TimeoutException
+from selenium.webdriver.support.ui import WebDriverWait # available since 2.4.0
+from selenium.webdriver.support import expected_conditions as EC # available since 2.26.0
+from selenium.webdriver.common.proxy import *
+from selenium.webdriver.common.by import By
 from bs4 import BeautifulSoup
 from base64 import b64encode
 import re
@@ -38,9 +44,54 @@ def run(cmd, timeout_sec=10):
   finally:
     timer.cancel()
 
+class VideoDlLinkSniffer(object):
+  _PROXY = {'host': '127.0.0.1', 'port': '8780', 'usr': 'pico', 'pwd': 'pico2009server'}
+
+  def __init__(self):
+    fp = webdriver.FirefoxProfile()
+    # set proxy type
+    fp.set_preference('network.proxy.type', 1)
+    fp.set_preference('network.proxy.http', self._PROXY['host'])
+    fp.set_preference('network.proxy.http_port', int(self._PROXY['port']))
+    fp.set_preference('network.proxy.ssl', self._PROXY['host'])
+    fp.set_preference('network.proxy.ssl_port', int(self._PROXY['port']))
+    fp.set_preference('network.proxy.socks', self._PROXY['host'])
+    fp.set_preference('network.proxy.socks_port', int(self._PROXY['port']))
+    fp.set_preference('network.proxy.ftp', self._PROXY['host'])
+    fp.set_preference('network.proxy.ftp_port', int(self._PROXY['port']))
+    fp.set_preference('network.proxy.no_proxies_on', 'localhost, 127.0.0.1')
+    credentials = '{usr}:{pwd}'.format(**self._PROXY)
+    credentials = b64encode(credentials.encode('ascii')).decode('utf-8')
+    fp.set_preference('extensions.closeproxyauth.authtoken', credentials)
+    self._driver = webdriver.Firefox(firefox_profile=fp)
+
+  def sniff(self, vlink):
+    self._driver.get("https://en.savefrom.net")
+    # submit video url
+    inputElement = WebDriverWait(self._driver, 30).until(EC.presence_of_element_located((By.ID, "sf_url")))
+    inputElement.clear()
+    inputElement.send_keys(vlink)
+    inputElement.submit()
+
+    # fetch video download link
+    linkDiv = WebDriverWait(self._driver, 30).until(EC.presence_of_element_located((By.CLASS_NAME, "def-btn-box")))
+    link = linkDiv.find_elements_by_xpath(".//a")
+
+    # download video file
+    dl_link = ""
+    if link:
+      dl_link = link[0].get_attribute("href")
+    return dl_link
+
+  def __del__(self):
+    self._driver.quit()
+
+
 class SummitSpiderPipeline(object):
 
   def open_spider(self, spider):
+    self._vlink_sniffer = VideoDlLinkSniffer()
+
     self._video_dir = "%s/%s" % (spider.dst_dir, "videos")
     self._video_set = getExcludeSet(self._video_dir, ".mp4")
 
@@ -59,8 +110,9 @@ class SummitSpiderPipeline(object):
       ### download video file ###
       video_name = "%s/%s.mp4" % (self._video_dir, item['base_fname'])
       video_link = item['video']['src_link']
-      if video_link and (video_name not in self._video_set):
-        cmd_str = "/usr/local/bin/youtube-dl -o %s %s" % (video_name, video_link)
+      video_dl_link = self._vlink_sniffer.sniff(video_link)
+      if video_link and video_dl_link and (video_name not in self._video_set):
+        cmd_str = "/usr/bin/wget -O %s %s -o /tmp/wget.log" % (video_name, video_dl_link)
         logger.info(">>>> execute cmd: %s" % (cmd_str))
         run(cmd_str, 300)
 
