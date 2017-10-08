@@ -97,6 +97,7 @@ class SummitSpiderPipeline(object):
 
     self._video_dir = "%s/%s" % (spider.dst_dir, "videos")
     self._video_set = getExcludeSet(self._video_dir, ".mp4")
+    logger.info(">>> video exclude set: %s" % (self._video_set))
 
     self._slide_dir = "%s/%s" % (spider.dst_dir, "slides")
     self._slide_set = getExcludeSet(self._slide_dir, ".pdf")
@@ -111,13 +112,17 @@ class SummitSpiderPipeline(object):
 
     if 'video' in self._dl_type_list:
       ### download video file ###
-      video_name = "%s/%s.mp4" % (self._video_dir, item['base_fname'])
-      video_link = item['video']['src_link']
-      video_dl_link = self._vlink_sniffer.sniff(video_link)
-      if video_link and video_dl_link and (video_name not in self._video_set):
-        cmd_str = "/usr/bin/wget -O %s %s -o /tmp/wget.log" % (video_name, video_dl_link)
-        logger.info(">>>> execute cmd: %s" % (cmd_str))
-        run(cmd_str, 300)
+      video_name = "%s.mp4" % (item['base_fname'])
+      video_full_name = "%s/%s" % (self._video_dir, video_name)
+      if video_name in self._video_set:
+        logger.info(">>> Skip %s" % (video_name))
+      else:
+        video_link = item['video']['src_link']
+        video_dl_link = self._vlink_sniffer.sniff(video_link)
+        if video_link and video_dl_link:
+          cmd_str = "/usr/bin/wget -O %s %s -o /tmp/wget.log" % (video_full_name, video_dl_link)
+          logger.info(">>>> execute cmd: %s" % (cmd_str))
+          run(cmd_str, 300)
 
     if 'slide' in self._dl_type_list:
       # download pdf file
