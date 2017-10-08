@@ -83,17 +83,17 @@ class VideoDlLinkSniffer(object):
       dl_link = link[0].get_attribute("href")
     return dl_link
 
-  def __del__(self):
+  def close(self):
     self._driver.quit()
 
 
 class SummitSpiderPipeline(object):
 
   def open_spider(self, spider):
-    proxy_type = 0
+    self._proxy_type = 0
     if hasattr(spider, 'proxy_type'):
-      proxy_type = spider.proxy_type 
-    self._vlink_sniffer = VideoDlLinkSniffer(proxy_type)
+      self._proxy_type = spider.proxy_type 
+    self._vlink_sniffer = VideoDlLinkSniffer(self._proxy_type)
 
     self._video_dir = "%s/%s" % (spider.dst_dir, "videos")
     self._video_set = getExcludeSet(self._video_dir, ".mp4")
@@ -101,6 +101,7 @@ class SummitSpiderPipeline(object):
 
     self._slide_dir = "%s/%s" % (spider.dst_dir, "slides")
     self._slide_set = getExcludeSet(self._slide_dir, ".pdf")
+    logger.info(">>> slide exclude set: %s" % (self._slide_set))
 
     self._dl_type_list = []
     if hasattr(spider, 'dl_type'):
@@ -127,21 +128,24 @@ class SummitSpiderPipeline(object):
     if 'slide' in self._dl_type_list:
       # download pdf file
       slide_name = "%s.pdf" % (item['base_fname'])
-      slide_link = item['slide']['src_link']
-      if slide_link and (slide_name not in self._slide_set):
-        link_list = PdfSlideDownloaderUtils.fetchImageUrlInfo(slide_link)
-        i = 1
-        for link in link_list:
-          img_fname = "%03d.jpg" % (i)
-          img_tmp_dir = "/tmp/pdfimg/%s" % (item['base_fname'])
-          if not os.path.exists(img_tmp_dir): os.mkdir(img_tmp_dir)
-          img_full_fname = "%s/%s" % (img_tmp_dir, img_fname)
-          self.dl_file(link, img_full_fname)
-          i += 1
+      if slide_name in self._slide_set:
+        logger.info(">>> Skip %s" % (slide_name))
+      else:
+        slide_link = item['slide']['src_link']
+        if slide_link:
+          link_list = PdfSlideDownloaderUtils.fetchImageUrlInfo(slide_link, self._proxy_type)
+          i = 1
+          for link in link_list:
+            img_fname = "%03d.jpg" % (i)
+            img_tmp_dir = "/tmp/pdfimg/%s" % (item['base_fname'])
+            if not os.path.exists(img_tmp_dir): os.mkdir(img_tmp_dir)
+            img_full_fname = "%s/%s" % (img_tmp_dir, img_fname)
+            self.dl_file(link, img_full_fname)
+            i += 1
 
-        cmd_str = "/usr/bin/convert %s/*.jpg* %s/%s" % (img_tmp_dir, self._slide_dir, slide_name)
-        print "       %s" % (cmd_str)
-        run(cmd_str, 30)
+          cmd_str = "/usr/bin/convert %s/*.jpg* %s/%s" % (img_tmp_dir, self._slide_dir, slide_name)
+          print "       %s" % (cmd_str)
+          run(cmd_str, 30)
 
     return item
 
@@ -161,15 +165,21 @@ class SummitSpiderPipeline(object):
       return
     
   def close_spider(self, spider):
+    self._vlink_sniffer.close()
     pass
 
 class PdfSlideDownloaderUtils():
     _RETRY_NUM = 5
+    _PROXY = { 'http': 'http://pico:pico2009server@127.0.0.1:8780',
+                'https': 'http://pico:pico2009server@127.0.0.1:8780' }
 
     @staticmethod
-    def fetchImageUrlInfo(url):
+    def fetchImageUrlInfo(url, proxy_type='0'):
         for i in range(PdfSlideDownloaderUtils._RETRY_NUM):
-            response = requests.get(url, timeout=30)
+            if proxy_type == '1':
+              response = requests.get(url, timeout=30, proxies=PdfSlideDownloaderUtils._PROXY)
+            else:
+              response = requests.get(url, timeout=30)
             #response = requests.get(url, timeout=30)
             if response.status_code == 200:
                 break
