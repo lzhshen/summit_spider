@@ -47,10 +47,10 @@ def run(cmd, timeout_sec=10):
 class VideoDlLinkSniffer(object):
   _PROXY = {'host': '127.0.0.1', 'port': '8780', 'usr': 'pico', 'pwd': 'pico2009server'}
 
-  def __init__(self):
+  def __init__(self, proxy_type):
     fp = webdriver.FirefoxProfile()
     # set proxy type
-    fp.set_preference('network.proxy.type', 1)
+    fp.set_preference('network.proxy.type', int(proxy_type))
     fp.set_preference('network.proxy.http', self._PROXY['host'])
     fp.set_preference('network.proxy.http_port', int(self._PROXY['port']))
     fp.set_preference('network.proxy.ssl', self._PROXY['host'])
@@ -90,7 +90,10 @@ class VideoDlLinkSniffer(object):
 class SummitSpiderPipeline(object):
 
   def open_spider(self, spider):
-    self._vlink_sniffer = VideoDlLinkSniffer()
+    proxy_type = 0
+    if hasattr(spider, 'proxy_type'):
+      proxy_type = spider.proxy_type 
+    self._vlink_sniffer = VideoDlLinkSniffer(proxy_type)
 
     self._video_dir = "%s/%s" % (spider.dst_dir, "videos")
     self._video_set = getExcludeSet(self._video_dir, ".mp4")
