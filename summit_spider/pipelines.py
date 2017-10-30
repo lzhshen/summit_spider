@@ -26,6 +26,17 @@ from threading import Timer
 
 logger = logging.getLogger(__name__)
 
+FS_THRESHOLD=20
+def filesystem_usage():
+    import subprocess
+    df = subprocess.Popen(["df", "/"], stdout=subprocess.PIPE)
+    output = df.communicate()[0]
+    device, size, used, available, percent, mountpoint = \
+        output.split("\n")[1].split()
+    p_str = percent.split('%')[0].strip()
+    p = int(p_str)
+    return p
+
 def getExcludeSet(dir, suffix):
     files = glob.glob(dir + "/*" + suffix)
     files = [os.path.basename(file) for file in files]
@@ -110,6 +121,10 @@ class SummitSpiderPipeline(object):
       self._dl_type_list = ['slide', 'video']
 
   def process_item(self, item, spider):
+    fs_usage = filesystem_usage()
+    if (fs_usage > FS_THRESHOLD):
+    	logger.info("===== filesystem usage is %d which exceeds %d, skip download" % (fs_usage, FS_THRESHOLD))
+        return item
 
     if 'video' in self._dl_type_list:
       ### download video file ###
