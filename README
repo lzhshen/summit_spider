@@ -1,3 +1,9 @@
 To run selenium without popup firefox, please invoke following two commands first:
 > Xvfb :99 &
 > export DISPLAY=:99
+
+# to list crawlers
+scrapy list
+
+# to start one crawler (kafka-summit-sf17)
+scrapy crawl kafka-summit-sf17 -a dl_type=video -a dst_dir=/home/shen/tmp/kafka/ -a proxy_type=1
