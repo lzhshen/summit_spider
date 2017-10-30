@@ -100,6 +100,12 @@ class VideoDlLinkSniffer(object):
 
 class SummitSpiderPipeline(object):
 
+  def dl_slide(self):
+    return ('slide' in self._dl_type_list)
+
+  def dl_video(self):
+    return ('video' in self._dl_type_list)
+
   def open_spider(self, spider):
     self._proxy_type = 0
     if hasattr(spider, 'proxy_type'):
@@ -111,13 +117,13 @@ class SummitSpiderPipeline(object):
     else:
       self._dl_type_list = ['slide', 'video']
 
-    if 'video' in self._dl_type_list:
+    if self.dl_video():
       self._vlink_sniffer = VideoDlLinkSniffer(self._proxy_type)
       self._video_dir = "%s/%s" % (spider.dst_dir, "videos")
       self._video_set = getExcludeSet(self._video_dir, ".mp4")
       logger.info(">>> video exclude set: %s" % (self._video_set))
 
-    if 'slide' in self._dl_type_list:
+    if self.dl_slide():
       self._slide_dir = "%s/%s" % (spider.dst_dir, "slides")
       self._slide_set = getExcludeSet(self._slide_dir, ".pdf")
       logger.info(">>> slide exclude set: %s" % (self._slide_set))
@@ -128,7 +134,7 @@ class SummitSpiderPipeline(object):
     	logger.info("===== filesystem usage is %d which exceeds %d, skip download" % (fs_usage, FS_THRESHOLD))
         return item
 
-    if 'video' in self._dl_type_list:
+    if self.dl_video():
       ### download video file ###
       video_name = "%s.mp4" % (item['base_fname'])
       video_full_name = "%s/%s" % (self._video_dir, video_name)
@@ -142,7 +148,7 @@ class SummitSpiderPipeline(object):
           logger.info(">>>> execute cmd: %s" % (cmd_str))
           run(cmd_str, 300)
 
-    if 'slide' in self._dl_type_list:
+    if self.dl_slide():
       # download pdf file
       slide_name = "%s.pdf" % (item['base_fname'])
       if slide_name in self._slide_set:
@@ -182,7 +188,8 @@ class SummitSpiderPipeline(object):
       return
     
   def close_spider(self, spider):
-    self._vlink_sniffer.close()
+    if self.dl_video():
+      self._vlink_sniffer.close()
     pass
 
 class PdfSlideDownloaderUtils():
