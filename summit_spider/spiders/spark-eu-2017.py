@@ -33,8 +33,6 @@ class SparkSpider(scrapy.Spider):
         title_str = e.xpath(".//a/text()").extract_first()
         if (not title_str):
           continue 
-        logger.info("counter: %d" % (i))
-        logger.info(title_str)
         summit['title']= title_str
         summit['base_fname'] = gen_base_fname(summit['title'])
         summit['desc'] = ''
@@ -46,12 +44,10 @@ class SparkSpider(scrapy.Spider):
         # speakers
         summit['speakers'] = [] 
         speakers = e.xpath(".//div[@class='event-speaker']")
-        logger.info("speakers: %s" % (speakers))
         for s in speakers:
           speaker = SpeakerItem()
           speaker['name'] = ''
           speaker['corp'] = ''
-          logger.info("speaker: %s" % (s))
           speaker_name_str = s.xpath(".//text()").extract_first()
           if speaker_name_str: speaker['name'] = speaker_name_str.strip()
           speaker_corp_str = s.xpath(".//span[@class='speaker.company']/text()").extract_first()
@@ -79,13 +75,10 @@ class SparkSpider(scrapy.Spider):
         summit['slide'] = slide
 
         # send request to detail page to fetch description
-        if detail_link:
-          request = Request(url=detail_link, 
-                            meta={'summit': summit},
-                            callback=self.fetch_description)
-          yield request
-        else:
-          yield summit
+        request = Request(url=detail_link,
+		    meta={'summit': summit},
+		    callback=self.fetch_description)
+        yield request
 
   def fetch_description(self, response):
     summit = response.request.meta['summit']
