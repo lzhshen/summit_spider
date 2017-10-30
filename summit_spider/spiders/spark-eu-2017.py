@@ -79,10 +79,13 @@ class SparkSpider(scrapy.Spider):
         summit['slide'] = slide
 
         # send request to detail page to fetch description
-        request = Request(url=detail_link, 
-                          meta={'summit': summit},
-                          callback=self.fetch_description)
-        yield request
+        if detail_link:
+          request = Request(url=detail_link, 
+                            meta={'summit': summit},
+                            callback=self.fetch_description)
+          yield request
+        else:
+          yield summit
 
   def fetch_description(self, response):
     summit = response.request.meta['summit']
