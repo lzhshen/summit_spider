@@ -85,10 +85,12 @@ class SparkSpider(scrapy.Spider):
     l = ItemLoader(summit=SummitItem(), response=response)
 
     p_list = response.xpath("//div[@class='event-description']/p")
+    desc_str = "" 
     for p in p_list:
       if p.xpath("./a").extract():
         pass
       else:
-        summit['desc'] = p.xpath("./text()").extract_first().strip()
+        desc_str += p.xpath("./text()").extract_first().strip()
+    summit['desc'] = desc_str
 
     yield summit
