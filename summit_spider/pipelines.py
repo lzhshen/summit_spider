@@ -153,7 +153,7 @@ class SummitSpiderPipeline(object):
           for link in link_list:
             img_fname = "%03d.jpg" % (i)
             img_tmp_dir = "/tmp/pdfimg/%s" % (item['base_fname'])
-            if not os.path.exists(img_tmp_dir): os.mkdir(img_tmp_dir)
+            if not os.path.exists(img_tmp_dir): os.makedirs(img_tmp_dir)
             img_full_fname = "%s/%s" % (img_tmp_dir, img_fname)
             self.dl_file(link, img_full_fname)
             i += 1
