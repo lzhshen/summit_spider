@@ -104,21 +104,23 @@ class SummitSpiderPipeline(object):
     self._proxy_type = 0
     if hasattr(spider, 'proxy_type'):
       self._proxy_type = spider.proxy_type 
-    self._vlink_sniffer = VideoDlLinkSniffer(self._proxy_type)
-
-    self._video_dir = "%s/%s" % (spider.dst_dir, "videos")
-    self._video_set = getExcludeSet(self._video_dir, ".mp4")
-    logger.info(">>> video exclude set: %s" % (self._video_set))
-
-    self._slide_dir = "%s/%s" % (spider.dst_dir, "slides")
-    self._slide_set = getExcludeSet(self._slide_dir, ".pdf")
-    logger.info(">>> slide exclude set: %s" % (self._slide_set))
 
     self._dl_type_list = []
     if hasattr(spider, 'dl_type'):
       self._dl_type_list.append(spider.dl_type)
     else:
       self._dl_type_list = ['slide', 'video']
+
+    if 'video' in self._dl_type_list:
+      self._vlink_sniffer = VideoDlLinkSniffer(self._proxy_type)
+      self._video_dir = "%s/%s" % (spider.dst_dir, "videos")
+      self._video_set = getExcludeSet(self._video_dir, ".mp4")
+      logger.info(">>> video exclude set: %s" % (self._video_set))
+
+    if 'slide' in self._dl_type_list:
+      self._slide_dir = "%s/%s" % (spider.dst_dir, "slides")
+      self._slide_set = getExcludeSet(self._slide_dir, ".pdf")
+      logger.info(">>> slide exclude set: %s" % (self._slide_set))
 
   def process_item(self, item, spider):
     fs_usage = filesystem_usage()
