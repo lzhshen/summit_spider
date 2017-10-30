@@ -26,7 +26,7 @@ from threading import Timer
 
 logger = logging.getLogger(__name__)
 
-FS_THRESHOLD=20
+FS_THRESHOLD=90
 def filesystem_usage():
     import subprocess
     df = subprocess.Popen(["df", "/"], stdout=subprocess.PIPE)
