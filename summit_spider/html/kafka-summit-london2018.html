@@ -1,0 +1,1291 @@
+<!DOCTYPE HTML>
+<!--[if lt IE 9]><html class="no-js lt-ie9"> <![endif]-->
+<!--[if IE 9]><html class="ie9"> <![endif]-->
+<!--[if gt IE 9]><!--><html class="no-js"><!--<![endif]-->
+<head>
+	<meta charset="utf-8">
+	<meta http-equiv="x-ua-compatible" content="ie=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<link rel="profile" href="http://gmpg.org/xfn/11">
+	<link rel="pingback" href="https://kafka-summit.org/xmlrpc.php">
+
+	<link rel="icon" href="https://kafka-summit.org/wp-content/themes/wpx/favicon.png">
+	<!--[if IE]><link rel="shortcut icon" href="https://kafka-summit.org/wp-content/themes/wpx/favicon.ico"><![endif]-->
+	<meta name="msapplication-TileColor" content="#FFFFFF">
+	<meta name="msapplication-TileImage" content="https://kafka-summit.org/wp-content/themes/wpx/tileicon.png">
+	<link rel="apple-touch-icon" href="https://kafka-summit.org/wp-content/themes/wpx/apple-touch-icon.png">
+
+	<title>Kafka Summit</title>
+
+<!-- This site is optimized with the Yoast SEO plugin v6.0 - https://yoast.com/wordpress/plugins/seo/ -->
+<meta name="description" content="Real-time stream processing at massive scale"/>
+<link rel="canonical" href="https://kafka-summit.org/" />
+<script type='application/ld+json'>{"@context":"http:\/\/schema.org","@type":"WebSite","@id":"#website","url":"https:\/\/kafka-summit.org\/","name":"Kafka Summit","alternateName":"Real-time stream processing at massive scale","potentialAction":{"@type":"SearchAction","target":"https:\/\/kafka-summit.org\/?s={search_term_string}","query-input":"required name=search_term_string"}}</script>
+<script type='application/ld+json'>{"@context":"http:\/\/schema.org","@type":"Organization","url":"https:\/\/kafka-summit.org\/","sameAs":["https:\/\/www.facebook.com\/confluentinc\/","https:\/\/www.linkedin.com\/company\/confluent","https:\/\/twitter.com\/ConfluentInc"],"@id":"#organization","name":"Kafka Summit","logo":"http:\/\/kafkasummit.wpengine.com\/wp-content\/uploads\/2016\/09\/logo-kafka-dark@2x.png"}</script>
+<!-- / Yoast SEO plugin. -->
+
+<link rel='dns-prefetch' href='//maps.google.com' />
+<link rel='dns-prefetch' href='//s.w.org' />
+<link rel="alternate" type="application/rss+xml" title="Kafka Summit &raquo; Feed" href="https://kafka-summit.org/feed/" />
+<link rel="alternate" type="application/rss+xml" title="Kafka Summit &raquo; Comments Feed" href="https://kafka-summit.org/comments/feed/" />
+		<script type="text/javascript">
+			window._wpemojiSettings = {"baseUrl":"https:\/\/s.w.org\/images\/core\/emoji\/2.4\/72x72\/","ext":".png","svgUrl":"https:\/\/s.w.org\/images\/core\/emoji\/2.4\/svg\/","svgExt":".svg","source":{"concatemoji":"https:\/\/kafka-summit.org\/wp-includes\/js\/wp-emoji-release.min.js?ver=4.9.6"}};
+			!function(a,b,c){function d(a,b){var c=String.fromCharCode;l.clearRect(0,0,k.width,k.height),l.fillText(c.apply(this,a),0,0);var d=k.toDataURL();l.clearRect(0,0,k.width,k.height),l.fillText(c.apply(this,b),0,0);var e=k.toDataURL();return d===e}function e(a){var b;if(!l||!l.fillText)return!1;switch(l.textBaseline="top",l.font="600 32px Arial",a){case"flag":return!(b=d([55356,56826,55356,56819],[55356,56826,8203,55356,56819]))&&(b=d([55356,57332,56128,56423,56128,56418,56128,56421,56128,56430,56128,56423,56128,56447],[55356,57332,8203,56128,56423,8203,56128,56418,8203,56128,56421,8203,56128,56430,8203,56128,56423,8203,56128,56447]),!b);case"emoji":return b=d([55357,56692,8205,9792,65039],[55357,56692,8203,9792,65039]),!b}return!1}function f(a){var c=b.createElement("script");c.src=a,c.defer=c.type="text/javascript",b.getElementsByTagName("head")[0].appendChild(c)}var g,h,i,j,k=b.createElement("canvas"),l=k.getContext&&k.getContext("2d");for(j=Array("flag","emoji"),c.supports={everything:!0,everythingExceptFlag:!0},i=0;i<j.length;i++)c.supports[j[i]]=e(j[i]),c.supports.everything=c.supports.everything&&c.supports[j[i]],"flag"!==j[i]&&(c.supports.everythingExceptFlag=c.supports.everythingExceptFlag&&c.supports[j[i]]);c.supports.everythingExceptFlag=c.supports.everythingExceptFlag&&!c.supports.flag,c.DOMReady=!1,c.readyCallback=function(){c.DOMReady=!0},c.supports.everything||(h=function(){c.readyCallback()},b.addEventListener?(b.addEventListener("DOMContentLoaded",h,!1),a.addEventListener("load",h,!1)):(a.attachEvent("onload",h),b.attachEvent("onreadystatechange",function(){"complete"===b.readyState&&c.readyCallback()})),g=c.source||{},g.concatemoji?f(g.concatemoji):g.wpemoji&&g.twemoji&&(f(g.twemoji),f(g.wpemoji)))}(window,document,window._wpemojiSettings);
+		</script>
+		<style type="text/css">
+img.wp-smiley,
+img.emoji {
+	display: inline !important;
+	border: none !important;
+	box-shadow: none !important;
+	height: 1em !important;
+	width: 1em !important;
+	margin: 0 .07em !important;
+	vertical-align: -0.1em !important;
+	background: none !important;
+	padding: 0 !important;
+}
+</style>
+<link rel='stylesheet' id='wp-pagenavi-css'  href='https://kafka-summit.org/wp-content/plugins/wp-pagenavi/pagenavi-css.css?ver=2.70' type='text/css' media='all' />
+<link rel='stylesheet' id='wpx.styles.min-css'  href='https://kafka-summit.org/wp-content/themes/wpx/assets/styles/screen.min.css?ver=4.9.6' type='text/css' media='all' />
+<link rel='https://api.w.org/' href='https://kafka-summit.org/wp-json/' />
+<link rel="EditURI" type="application/rsd+xml" title="RSD" href="https://kafka-summit.org/xmlrpc.php?rsd" />
+<link rel="wlwmanifest" type="application/wlwmanifest+xml" href="https://kafka-summit.org/wp-includes/wlwmanifest.xml" /> 
+
+	<script src="https://kafka-summit.org/wp-content/themes/wpx/assets/js/modernizr.js"></script>
+	<script src="https://kafka-summit.org/wp-content/themes/wpx/assets/js/media-match.js"></script>
+
+</head>
+
+<body class="subsection-schedule has-schedule">
+
+<div class="loading-screen">
+	<div class="loading-screen-inner">
+		<div class="logo-kafka-summit hvr-back-pulse"></div>
+	</div>
+</div>
+
+<div class="header-mobile" id="sticky-header-mobile">
+	<a href="https://kafka-summit.org" class="logo-kafka-dark"><img src="https://kafka-summit.org/wp-content/themes/wpx/assets/images/logo-kafka-dark.png" alt="Kafka Summit Logo" data-rjs="https://kafka-summit.org/wp-content/themes/wpx/assets/images/logo-kafka-dark@2x.png" ></a>
+	<a style="cursor: text;" href="javascript:void(0);" class="button button-cta">Sold Out</a></div>
+<div class="header-main" id="sticky-header">
+
+	<div class="header-main-inner">
+
+		<a href="https://kafka-summit.org" class="logo-kafka"><img src="https://kafka-summit.org/wp-content/themes/wpx/assets/images/logo-kafka-light.png" alt="Kafka Summit Logo" data-rjs="https://kafka-summit.org/wp-content/themes/wpx/assets/images/logo-kafka-light@2x.png" ></a>
+
+		
+<div class="nav-primary">
+
+	<ul><li id="nav-menu-item-178" class="menu-home main-menu-item  menu-item-even menu-item-depth-0 menu-item menu-item-type-custom menu-item-object-custom current-menu-item menu-item-home"><a href="https://kafka-summit.org/" class="menu-link main-menu-link">Home</a></li>
+<li id="nav-menu-item-181" class="menu-past-events main-menu-item  menu-item-even menu-item-depth-0 menu-item menu-item-type-post_type menu-item-object-page"><a href="https://kafka-summit.org/past-events/" class="menu-link main-menu-link">Past Events</a></li>
+<li id="nav-menu-item-1053" class="menu-sponsor main-menu-item  menu-item-even menu-item-depth-0 menu-item menu-item-type-custom menu-item-object-custom"><a href="https://kafka-summit.org/kafka-summit-san-francisco-2018/sponsors/" class="menu-link main-menu-link">Sponsor</a></li>
+<li id="nav-menu-item-3137" class="menu-about main-menu-item  menu-item-even menu-item-depth-0 menu-item menu-item-type-custom menu-item-object-custom menu-item-has-children"><a href="#" class="menu-link main-menu-link">About</a>
+<ul class="sub-menu">
+	<li id="nav-menu-item-3136" class="menu-about-apache-kafka sub-menu-item  menu-item-odd menu-item-depth-1 menu-item menu-item-type-post_type menu-item-object-page"><a href="https://kafka-summit.org/about-apache-kafka/" class="menu-link sub-menu-link">About Apache Kafka</a></li>
+	<li id="nav-menu-item-3138" class="menu-program-committee sub-menu-item  menu-item-odd menu-item-depth-1 menu-item menu-item-type-post_type menu-item-object-page"><a href="https://kafka-summit.org/program-committee/" class="menu-link sub-menu-link">Program Committee</a></li>
+	<li id="nav-menu-item-3139" class="menu-code-of-conduct sub-menu-item  menu-item-odd menu-item-depth-1 menu-item menu-item-type-post_type menu-item-object-page"><a href="https://kafka-summit.org/code-of-conduct/" class="menu-link sub-menu-link">Code of Conduct</a></li>
+</ul>
+</li>
+</ul>
+</div>
+	</div>
+
+</div>
+<div class="bounds">
+
+	
+		
+	
+<header class="header-minor">
+	<div class="header-minor-inner">
+		<div class="summit-details">
+			<h1 class="summit-title"><a href="https://kafka-summit.org/events/kafka-summit-london-2018/">Kafka Summit London</a></h1>
+			<h2 class="summit-tagline">Streaming platforms at massive scale.</h2>			<p>April 23-24, 2018  <span class="separator">|</span> London</p>		</div>
+		<a style="cursor: text;" href="javascript:void(0);" class="button button-cta">Sold Out</a>	</div>
+</header>
+
+		
+
+<div class="nav-secondary-wrap">
+	<div class="nav-secondary">
+		<ul><li id="nav-menu-item-2663" class="about main-menu-item  menu-item-even menu-item-depth-0 menu-item menu-item-type-custom menu-item-object-custom"><a href="https://kafka-summit.org/events/kafka-summit-london-2018/" class="menu-link main-menu-link">About<div class="track"><div class="circle"></div></div></a></li>
+<li id="nav-menu-item-2800" class="schedule main-menu-item  menu-item-even menu-item-depth-0 menu-item menu-item-type-custom menu-item-object-custom current-menu-item"><a href="https://kafka-summit.org/kafka-summit-london-2018/schedule/" class="menu-link main-menu-link">Schedule<div class="track"><div class="circle"></div></div></a></li>
+<li id="nav-menu-item-2661" class="speakers main-menu-item  menu-item-even menu-item-depth-0 menu-item menu-item-type-custom menu-item-object-custom"><a href="https://kafka-summit.org/kafka-summit-london-2018/speakers/" class="menu-link main-menu-link">Speakers<div class="track"><div class="circle"></div></div></a></li>
+<li id="nav-menu-item-2666" class="venue main-menu-item  menu-item-even menu-item-depth-0 menu-item menu-item-type-custom menu-item-object-custom"><a href="https://kafka-summit.org/kafka-summit-london-2018/venue/" class="menu-link main-menu-link">Venue<div class="track"><div class="circle"></div></div></a></li>
+<li id="nav-menu-item-2660" class="sponsor main-menu-item  menu-item-even menu-item-depth-0 menu-item menu-item-type-custom menu-item-object-custom"><a href="https://kafka-summit.org/kafka-summit-london-2018/sponsors/" class="menu-link main-menu-link">Sponsor<div class="track"><div class="circle"></div></div></a></li>
+<li id="nav-menu-item-2745" class="training main-menu-item  menu-item-even menu-item-depth-0 menu-item menu-item-type-custom menu-item-object-custom"><a href="https://kafka-summit.org/kafka-summit-london-2018/training/" class="menu-link main-menu-link">Training<div class="track"><div class="circle"></div></div></a></li>
+</ul>	</div>
+	<div class="progress"></div>
+</div>
+
+
+	
+
+<div class="bounds-content">
+
+	<div class="content-wrap">
+
+		<div class="module-schedule">
+
+											<div class="schedule-days">
+					<ul>
+																				<li class="active"><a data-target="day_38" href="#">April 23</a></li>
+																											<li ><a data-target="day_39" href="#">April 24</a></li>
+																		</ul>
+				</div>
+			
+			
+				
+					
+					<div class="schedule-wrapper active" id="day_38">
+
+						<div class="schedule-pre">
+
+							
+	
+	
+		
+															
+			
+			
+			<div class="schedule-timeblock">
+
+				<datetime class="schedule-timeblock-time">11:00 AM</datetime>
+
+				<div class="schedule-item style-full">
+					<p class="schedule-item-title"><a href="https://kafka-summit.org/sessions/death-rebirth-event-driven-architecture/">The Death and Rebirth of the Event-Driven Architecture (Keynote)</a></p>
+										<p class="schedule-item-length">25 mins</p>
+					<div class="schedule-item-meta">
+						<p class="schedule-item-length">25 mins</p>
+						<p class="schedule-item-authors"><a href="https://kafka-summit.org/speakers/jay-kreps-3/">Jay Kreps, Confluent</a></p>					</div>
+				</div>
+
+			</div>
+
+		
+															
+			
+			
+			<div class="schedule-timeblock">
+
+				<datetime class="schedule-timeblock-time">11:25 AM</datetime>
+
+				<div class="schedule-item style-full">
+					<p class="schedule-item-title"><a href="https://kafka-summit.org/sessions/fast-cars-streaming-world-reimagining-transportation-audi/">Enabling Experimentation Using Event-based Systems (Keynote)</a></p>
+										<p class="schedule-item-length">25 mins</p>
+					<div class="schedule-item-meta">
+						<p class="schedule-item-length">25 mins</p>
+						<p class="schedule-item-authors"><a href="https://kafka-summit.org/speakers/martin-fowler/">Martin Fowler, ThoughtWorks</a>; <a href="https://kafka-summit.org/speakers/%e2%80%8btoby-clemson%e2%80%8b/">​Toby Clemson​, ThoughtWorks</a></p>					</div>
+				</div>
+
+			</div>
+
+		
+	
+						</div>
+
+						
+						
+						
+						<div class="schedule-header">
+
+							<datetime class="schedule-timeblock-time">12:00 PM - 9:45 PM</datetime>
+							<div class="schedule-header-wrap">
+                              
+								
+									
+									
+										<a href="#" class="schedule-header-item active" data-color="#2da6a3" style="border-color: #2da6a3"  data-target="track-stream-processing-track">
+										<span class="schedule-header-item-title">Streams Track</span>
+										<span class="schedule-header-item-sessions">6 Sessions</span>
+									</a>
+
+								
+									
+									
+										<a href="#" class="schedule-header-item active" data-color="#5a62a6" style="border-color: #5a62a6"  data-target="track-streaming-data-pipelines-track">
+										<span class="schedule-header-item-title">Pipelines Track</span>
+										<span class="schedule-header-item-sessions">6 Sessions</span>
+									</a>
+
+								
+									
+									
+										<a href="#" class="schedule-header-item active" data-color="#dd8f1a" style="border-color: #dd8f1a"  data-target="track-internals-track">
+										<span class="schedule-header-item-title">Internals Track</span>
+										<span class="schedule-header-item-sessions">6 Sessions</span>
+									</a>
+
+								                                                                				                                                				                                                				                								<a href="#" class="schedule-header-item active" data-color="#000000" data-target="track-all">
+									<span class="schedule-header-item-title">All Tracks</span>
+									<span class="schedule-header-item-sessions">18 Sessions</span>
+								</a>
+                                								<br class="clear">
+
+							</div>
+
+						</div>
+
+						
+						<section class="schedule-timetable">
+
+							
+							<h1 class="screenreader">Schedule for April 23</h1>
+
+							
+							
+							
+								<div class="schedule-timeblock">
+
+									<datetime class="schedule-timeblock-time">12:00 PM</datetime>
+
+									<div class="schedule-timeblock-wrap">
+
+										
+										
+											
+
+<article style="border-color: #2da6a3" class="schedule-item track-all track-stream-processing-track style-block">
+	<h1 class="schedule-item-title"><a href="https://kafka-summit.org/sessions/implementing-anti-money-laundering-with-kafka/">Implementing Anti Money Laundering with Kafka</a></h1>
+	<div class="schedule-item-meta">
+		<p class="schedule-item-length">40 mins</p>
+		<p class="schedule-item-authors"><a href="https://www.confluent.io/kafka-summit-london18/implementing-anti-money-laundering-with-kafka" target="_blank">Video & Slides</a></p>		<p class="schedule-item-authors"><a href="https://kafka-summit.org/speakers/andreas-lundsten/">Andreas Lundsten, Forefront Consulting Group</a>; <a href="https://kafka-summit.org/speakers/pareriksson/">Pär	Eriksson, Forefront Consulting Group</a></p>	</div>
+</article>
+										
+											
+
+<article style="border-color: #5a62a6" class="schedule-item track-all track-streaming-data-pipelines-track style-block">
+	<h1 class="schedule-item-title"><a href="https://kafka-summit.org/sessions/building-low-latency-high-throughput-pipelines-kafka-scratch/">Building Low-Latency, High-Throughput Pipelines with Kafka from Scratch</a></h1>
+	<div class="schedule-item-meta">
+		<p class="schedule-item-length">40 mins</p>
+		<p class="schedule-item-authors"><a href="https://www.confluent.io/kafka-summit-london18/building-low-latency-high-throughput-pipelines-with-kafka-from-scratch" target="_blank">Video & Slides</a></p>		<p class="schedule-item-authors"><a href="https://kafka-summit.org/speakers/ben-abramson/">Ben Abramson, William Hill</a>; <a href="https://kafka-summit.org/speakers/robert-knowles/">Robert Knowles, William Hill</a></p>	</div>
+</article>
+										
+											
+
+<article style="border-color: #dd8f1a" class="schedule-item track-all track-internals-track style-block">
+	<h1 class="schedule-item-title"><a href="https://kafka-summit.org/sessions/kafka-containers-docker-kubernetes-cloud/">Kafka in Containers in Docker in Kubernetes in The Cloud</a></h1>
+	<div class="schedule-item-meta">
+		<p class="schedule-item-length">40 mins</p>
+		<p class="schedule-item-authors"><a href="https://www.confluent.io/kafka-summit-london18/kafka-in-containers-in-docker-in-kubernetes-in-the-cloud" target="_blank">Video & Slides</a></p>		<p class="schedule-item-authors"><a href="https://kafka-summit.org/speakers/christopher-vollick/">Christopher Vollick, Shopify</a></p>	</div>
+</article>
+										
+									</div>
+
+								</div>
+
+							
+								<div class="schedule-timeblock">
+
+									<datetime class="schedule-timeblock-time">12:40 PM</datetime>
+
+									<div class="schedule-timeblock-wrap">
+
+										
+										
+											
+
+<article  class="schedule-item track-all style-full">
+	<h1 class="schedule-item-title"><a href="https://kafka-summit.org/sessions/lunch-2/">Lunch</a></h1>
+	<div class="schedule-item-meta">
+		<p class="schedule-item-length">50 mins</p>
+					</div>
+</article>
+										
+									</div>
+
+								</div>
+
+							
+								<div class="schedule-timeblock">
+
+									<datetime class="schedule-timeblock-time">1:30 PM</datetime>
+
+									<div class="schedule-timeblock-wrap">
+
+										
+										
+											
+
+<article style="border-color: #2da6a3" class="schedule-item track-all track-stream-processing-track style-block">
+	<h1 class="schedule-item-title"><a href="https://kafka-summit.org/sessions/event-sourcing-kafka-using-kstreams/">Event Sourcing over Kafka Using KStreams</a></h1>
+	<div class="schedule-item-meta">
+		<p class="schedule-item-length">40 mins</p>
+		<p class="schedule-item-authors"><a href="https://www.confluent.io/kafka-summit-london18/event-sourcing-over-kafka-using-kstreams" target="_blank">Video & Slides</a></p>		<p class="schedule-item-authors"><a href="https://kafka-summit.org/speakers/peter-hannam/">Peter Hannam, 6point6</a></p>	</div>
+</article>
+										
+											
+
+<article style="border-color: #5a62a6" class="schedule-item track-all track-streaming-data-pipelines-track style-block">
+	<h1 class="schedule-item-title"><a href="https://kafka-summit.org/sessions/building-microservice-pipelines-kafka-clojure/">As Above, So Below &#8211; Building Microservice Pipelines with Kafka and Clojure</a></h1>
+	<div class="schedule-item-meta">
+		<p class="schedule-item-length">40 mins</p>
+		<p class="schedule-item-authors"><a href="https://www.confluent.io/kafka-summit-london18/building-microservice-pipelines-with-kafka-and-clojure" target="_blank">Video & Slides</a></p>		<p class="schedule-item-authors"><a href="https://kafka-summit.org/speakers/dan-meyers/">Dan Meyers, BBC</a></p>	</div>
+</article>
+										
+											
+
+<article style="border-color: #dd8f1a" class="schedule-item track-all track-internals-track style-block">
+	<h1 class="schedule-item-title"><a href="https://kafka-summit.org/sessions/monitor-kafka-like-pro/">Monitor Kafka Like a Pro</a></h1>
+	<div class="schedule-item-meta">
+		<p class="schedule-item-length">40 mins</p>
+		<p class="schedule-item-authors"><a href="https://www.confluent.io/kafka-summit-london18/monitor-kafka-like-a-pro" target="_blank">Video & Slides</a></p>		<p class="schedule-item-authors"><a href="https://kafka-summit.org/speakers/gwen-shapira-4/">Gwen Shapira, Confluent</a>; <a href="https://kafka-summit.org/speakers/xavier-leaute/">Xavier Léauté, Confluent</a></p>	</div>
+</article>
+										
+									</div>
+
+								</div>
+
+							
+								<div class="schedule-timeblock">
+
+									<datetime class="schedule-timeblock-time">2:20 PM</datetime>
+
+									<div class="schedule-timeblock-wrap">
+
+										
+										
+											
+
+<article style="border-color: #2da6a3" class="schedule-item track-all track-stream-processing-track style-block">
+	<h1 class="schedule-item-title"><a href="https://kafka-summit.org/sessions/building-data-intensive-business-systems-kafka-streams/">Building Event Driven Systems with Kafka Streams</a></h1>
+	<div class="schedule-item-meta">
+		<p class="schedule-item-length">40 mins</p>
+		<p class="schedule-item-authors"><a href="https://www.confluent.io/kafka-summit-london18/building-event-driven-systems-with-kafka-streams" target="_blank">Video & Slides</a></p>		<p class="schedule-item-authors"><a href="https://kafka-summit.org/speakers/benjamin-stopford-3/">Benjamin Stopford, Confluent</a></p>	</div>
+</article>
+										
+											
+
+<article style="border-color: #5a62a6" class="schedule-item track-all track-streaming-data-pipelines-track style-block">
+	<h1 class="schedule-item-title"><a href="https://kafka-summit.org/sessions/kafka-bigquery-guide-delivering-billions-daily-events/">From Kafka to BigQuery &#8211; a Guide for Delivering Billions of Daily Events</a></h1>
+	<div class="schedule-item-meta">
+		<p class="schedule-item-length">40 mins</p>
+		<p class="schedule-item-authors"><a href="https://www.confluent.io/kafka-summit-london18/from-kafka-to-bigquery-a-guide-for-delivering-billions-of-daily-events" target="_blank">Video & Slides</a></p>		<p class="schedule-item-authors"><a href="https://kafka-summit.org/speakers/ofirsharony/">Ofir	Sharony, MyHeritage</a></p>	</div>
+</article>
+										
+											
+
+<article style="border-color: #dd8f1a" class="schedule-item track-all track-internals-track style-block">
+	<h1 class="schedule-item-title"><a href="https://kafka-summit.org/sessions/tuning-a-kafka-cluster-to-achieve-high-partition-density-and-high-throughput/">Tuning a Kafka Cluster to Achieve High Partition Density and High Throughput</a></h1>
+	<div class="schedule-item-meta">
+		<p class="schedule-item-length">40 mins</p>
+		<p class="schedule-item-authors"><a href="https://www.confluent.io/kafka-summit-london18/tuning-a-kafka-cluster-to-achieve-high-partition-density-and-high-throughput" target="_blank">Video & Slides</a></p>		<p class="schedule-item-authors"><a href="https://kafka-summit.org/speakers/eric-klingelberger/">Eric Klingelberger, IBM</a>; <a href="https://kafka-summit.org/speakers/andrew-schofield-2/">Andrew Schofield, IBM</a></p>	</div>
+</article>
+										
+									</div>
+
+								</div>
+
+							
+								<div class="schedule-timeblock">
+
+									<datetime class="schedule-timeblock-time">3:10 PM</datetime>
+
+									<div class="schedule-timeblock-wrap">
+
+										
+										
+											
+
+<article style="border-color: #2da6a3" class="schedule-item track-all track-stream-processing-track style-block">
+	<h1 class="schedule-item-title"><a href="https://kafka-summit.org/sessions/realtime-analytics-machine-learning-kafka-streams-kubernetes/">Realtime Analytics and Machine Learning with Kafka Streams and Kubernetes</a></h1>
+	<div class="schedule-item-meta">
+		<p class="schedule-item-length">40 mins</p>
+		<p class="schedule-item-authors"><a href="https://www.confluent.io/kafka-summit-london18/realtime-analytics-and-machine-learning-with-kafka-streams-and-kubernetes" target="_blank">Video & Slides</a></p>		<p class="schedule-item-authors"><a href="https://kafka-summit.org/speakers/saket-kumar/">Saket Kumar, Centrica Connected Home</a>; <a href="https://kafka-summit.org/speakers/joseph-casals/">Josep Casals, Centrica Connected Home</a></p>	</div>
+</article>
+										
+											
+
+<article style="border-color: #5a62a6" class="schedule-item track-all track-streaming-data-pipelines-track style-block">
+	<h1 class="schedule-item-title"><a href="https://kafka-summit.org/sessions/building-robust-scalable-streaming-pipeline-using-kafka-akka-streams-powering-search-analytics-workday/">Building a Robust and Scalable Streaming Pipeline Using Kafka and Akka Streams &#8211; Powering Search and Analytics at Workday</a></h1>
+	<div class="schedule-item-meta">
+		<p class="schedule-item-length">40 mins</p>
+		<p class="schedule-item-authors"><a href="https://www.confluent.io/kafka-summit-london18/building-a-robust-and-scalable-streaming-pipeline-using-kafka-and-akka-streams-powering-search-and-analytics-at-workday" target="_blank">Video & Slides</a></p>		<p class="schedule-item-authors"><a href="https://kafka-summit.org/speakers/saumil-shah/">Saumil Shah, Workday, Inc.</a></p>	</div>
+</article>
+										
+											
+
+<article style="border-color: #dd8f1a" class="schedule-item track-all track-internals-track style-block">
+	<h1 class="schedule-item-title"><a href="https://kafka-summit.org/sessions/dont-repeat-introducing-exactly-semantics-apache-kafka/">Don&#8217;t Repeat Yourself: Introducing Exactly-Once Semantics in Apache Kafka</a></h1>
+	<div class="schedule-item-meta">
+		<p class="schedule-item-length">40 mins</p>
+		<p class="schedule-item-authors"><a href="https://www.confluent.io/kafka-summit-london18/dont-repeat-yourself-introducing-exactly-once-semantics-in-apache-kafka" target="_blank">Video & Slides</a></p>		<p class="schedule-item-authors"><a href="https://kafka-summit.org/speakers/matthias-j-sax/">Matthias J. Sax, Confluent</a></p>	</div>
+</article>
+										
+									</div>
+
+								</div>
+
+							
+								<div class="schedule-timeblock">
+
+									<datetime class="schedule-timeblock-time">3:50 PM</datetime>
+
+									<div class="schedule-timeblock-wrap">
+
+										
+										
+											
+
+<article  class="schedule-item track-all style-full">
+	<h1 class="schedule-item-title"><a href="https://kafka-summit.org/sessions/afternoon-tea-break/">Afternoon Tea + Break</a></h1>
+	<div class="schedule-item-meta">
+		<p class="schedule-item-length">25 mins</p>
+					</div>
+</article>
+										
+									</div>
+
+								</div>
+
+							
+								<div class="schedule-timeblock">
+
+									<datetime class="schedule-timeblock-time">4:15 PM</datetime>
+
+									<div class="schedule-timeblock-wrap">
+
+										
+										
+											
+
+<article style="border-color: #2da6a3" class="schedule-item track-all track-stream-processing-track style-block">
+	<h1 class="schedule-item-title"><a href="https://kafka-summit.org/sessions/unlocking-world-stream-processing-ksql-streaming-sql-engine-apache-kafka/">Unlocking the World of Stream Processing with KSQL, the Streaming SQL Engine for Apache Kafka</a></h1>
+	<div class="schedule-item-meta">
+		<p class="schedule-item-length">40 mins</p>
+		<p class="schedule-item-authors"><a href="https://www.confluent.io/kafka-summit-london18/unlocking-the-world-of-stream-processing-with-ksql-the-streaming-sql-engine-for-apache-kafka" target="_blank">Video & Slides</a></p>		<p class="schedule-item-authors"><a href="https://kafka-summit.org/speakers/neil-avery/">Neil Avery, Confluent</a></p>	</div>
+</article>
+										
+											
+
+<article style="border-color: #5a62a6" class="schedule-item track-all track-streaming-data-pipelines-track style-block">
+	<h1 class="schedule-item-title"><a href="https://kafka-summit.org/sessions/streaming-data-service-democratizing-data-pipelines/">Streaming Data as a Service: You, Too, Can Deploy a WordCount App!</a></h1>
+	<div class="schedule-item-meta">
+		<p class="schedule-item-length">40 mins</p>
+		<p class="schedule-item-authors"><a href="https://www.confluent.io/kafka-summit-london18/streaming-data-as-a-service-you-too-can-deploy-a-wordcount-app" target="_blank">Video & Slides</a></p>		<p class="schedule-item-authors"><a href="https://kafka-summit.org/speakers/nikki-thean-2/">Nikki Thean, Etsy</a></p>	</div>
+</article>
+										
+											
+
+<article style="border-color: #dd8f1a" class="schedule-item track-all track-internals-track style-block">
+	<h1 class="schedule-item-title"><a href="https://kafka-summit.org/sessions/streaming-analytics-business-analysts-ksql-nordea-bank/">The Evolution of Kafka at ING Bank</a></h1>
+	<div class="schedule-item-meta">
+		<p class="schedule-item-length">40 mins</p>
+		<p class="schedule-item-authors"><a href="https://www.confluent.io/kafka-summit-london18/the-evolution-of-kafka-at-ing-bank" target="_blank">Video & Slides</a></p>		<p class="schedule-item-authors"><a href="https://kafka-summit.org/speakers/timor-timuri/">Timor Timuri, ING</a>; <a href="https://kafka-summit.org/speakers/richard-bras/">Richard Bras, ING</a></p>	</div>
+</article>
+										
+									</div>
+
+								</div>
+
+							
+								<div class="schedule-timeblock">
+
+									<datetime class="schedule-timeblock-time">5:05 PM</datetime>
+
+									<div class="schedule-timeblock-wrap">
+
+										
+										
+											
+
+<article style="border-color: #2da6a3" class="schedule-item track-all track-stream-processing-track style-block">
+	<h1 class="schedule-item-title"><a href="https://kafka-summit.org/sessions/taking-stateful-stream-processing-to-next-level/">Taking Stateful Stream Processing to the Next Level with Kafka and Flink</a></h1>
+	<div class="schedule-item-meta">
+		<p class="schedule-item-length">40 mins</p>
+		<p class="schedule-item-authors"><a href="https://www.confluent.io/kafka-summit-london18/taking-stateful-stream-processing-to-the-next-level-with-kafka-and-flink" target="_blank">Video & Slides</a></p>		<p class="schedule-item-authors"><a href="https://kafka-summit.org/speakers/stephan-ewen-2/">Stephan Ewen, data Artisans</a></p>	</div>
+</article>
+										
+											
+
+<article style="border-color: #5a62a6" class="schedule-item track-all track-streaming-data-pipelines-track style-block">
+	<h1 class="schedule-item-title"><a href="https://kafka-summit.org/sessions/taming-billions-metrics-logs-scale-two-years-kafka-central-data-hub-monitoring-cern/">Taming Billions of Metrics and Logs at Scale: Two Years with Kafka as a Central Data Hub for Monitoring @ CERN</a></h1>
+	<div class="schedule-item-meta">
+		<p class="schedule-item-length">40 mins</p>
+		<p class="schedule-item-authors"><a href="https://www.confluent.io/kafka-summit-london18/taming-billions-of-metrics-and-logs-at-scale-two-years-with-kafka-as-a-central-data-hub-for-monitoring-at-cern" target="_blank">Video & Slides</a></p>		<p class="schedule-item-authors"><a href="https://kafka-summit.org/speakers/luca-magnoni/">Luca Magnoni, CERN</a></p>	</div>
+</article>
+										
+											
+
+<article style="border-color: #dd8f1a" class="schedule-item track-all track-internals-track style-block">
+	<h1 class="schedule-item-title"><a href="https://kafka-summit.org/sessions/war-stories-diy-kafka/">War Stories: DIY Kafka</a></h1>
+	<div class="schedule-item-meta">
+		<p class="schedule-item-length">40 mins</p>
+		<p class="schedule-item-authors"><a href="https://www.confluent.io/kafka-summit-london18/war-stories-diy-kafka" target="_blank">Video & Slides</a></p>		<p class="schedule-item-authors"><a href="https://kafka-summit.org/speakers/nina-hanzlikova/">Nina Hanzlikova, Zalando</a></p>	</div>
+</article>
+										
+									</div>
+
+								</div>
+
+							
+								<div class="schedule-timeblock">
+
+									<datetime class="schedule-timeblock-time">5:45 PM</datetime>
+
+									<div class="schedule-timeblock-wrap">
+
+										
+										
+											
+
+<article  class="schedule-item track-all style-full">
+	<h1 class="schedule-item-title"><a href="https://kafka-summit.org/sessions/expo-floor-cocktail-reception/">Expo Floor Cocktail Reception</a></h1>
+	<div class="schedule-item-meta">
+		<p class="schedule-item-length">60 mins</p>
+					</div>
+</article>
+										
+									</div>
+
+								</div>
+
+							
+								<div class="schedule-timeblock">
+
+									<datetime class="schedule-timeblock-time">6:45 PM</datetime>
+
+									<div class="schedule-timeblock-wrap">
+
+										
+										
+											
+
+<article  class="schedule-item track-all style-full">
+	<h1 class="schedule-item-title"><a href="https://kafka-summit.org/sessions/kafka-summit-party-2/">Kafka Summit Party</a></h1>
+	<div class="schedule-item-meta">
+		<p class="schedule-item-length">180 mins</p>
+					</div>
+</article>
+										
+									</div>
+
+								</div>
+
+							
+						</section>
+
+						<div class="schedule-pre">
+
+							
+	
+	
+						</div>
+
+					</div>
+
+				
+					
+					<div class="schedule-wrapper " id="day_39">
+
+						<div class="schedule-pre">
+
+							
+	
+	
+		
+															
+			
+			
+			<div class="schedule-timeblock">
+
+				<datetime class="schedule-timeblock-time">8:10 AM</datetime>
+
+				<div class="schedule-item style-full">
+					<p class="schedule-item-title"><a href="https://kafka-summit.org/sessions/present-future-streaming-platform/">The Present and Future of the Streaming Platform (Keynote)</a></p>
+										<p class="schedule-item-length">25 mins</p>
+					<div class="schedule-item-meta">
+						<p class="schedule-item-length">25 mins</p>
+						<p class="schedule-item-authors"><a href="https://kafka-summit.org/speakers/neha-narkhede-4/">Neha Narkhede, Confluent</a></p>					</div>
+				</div>
+
+			</div>
+
+		
+															
+			
+			
+			<div class="schedule-timeblock">
+
+				<datetime class="schedule-timeblock-time">8:35 AM</datetime>
+
+				<div class="schedule-item style-full">
+					<p class="schedule-item-title"><a href="https://kafka-summit.org/sessions/enabling-experimentation-using-event-based-systems/">Fast Cars in a Streaming World: Reimagining Transportation at AUDI (Keynote)</a></p>
+										<p class="schedule-item-length">25 mins</p>
+					<div class="schedule-item-meta">
+						<p class="schedule-item-length">25 mins</p>
+						<p class="schedule-item-authors"><a href="https://kafka-summit.org/speakers/stefan-bauer/">Stefan Bauer, AUDI</a></p>					</div>
+				</div>
+
+			</div>
+
+		
+	
+						</div>
+
+						
+						
+						
+						<div class="schedule-header">
+
+							<datetime class="schedule-timeblock-time">9:10 AM - 12:50 PM</datetime>
+							<div class="schedule-header-wrap">
+                              
+								
+									
+									
+										<a href="#" class="schedule-header-item active" data-color="#2da6a3" style="border-color: #2da6a3"  data-target="track-stream-processing-track">
+										<span class="schedule-header-item-title">Streams Track</span>
+										<span class="schedule-header-item-sessions">4 Sessions</span>
+									</a>
+
+								
+									
+									
+										<a href="#" class="schedule-header-item active" data-color="#5a62a6" style="border-color: #5a62a6"  data-target="track-streaming-data-pipelines-track">
+										<span class="schedule-header-item-title">Pipelines Track</span>
+										<span class="schedule-header-item-sessions">4 Sessions</span>
+									</a>
+
+								
+									
+									
+										<a href="#" class="schedule-header-item active" data-color="#dd8f1a" style="border-color: #dd8f1a"  data-target="track-internals-track">
+										<span class="schedule-header-item-title">Internals Track</span>
+										<span class="schedule-header-item-sessions">4 Sessions</span>
+									</a>
+
+								                                                                				                                                				                                                				                								<a href="#" class="schedule-header-item active" data-color="#000000" data-target="track-all">
+									<span class="schedule-header-item-title">All Tracks</span>
+									<span class="schedule-header-item-sessions">12 Sessions</span>
+								</a>
+                                								<br class="clear">
+
+							</div>
+
+						</div>
+
+						
+						<section class="schedule-timetable">
+
+							
+							<h1 class="screenreader">Schedule for April 24</h1>
+
+							
+							
+							
+								<div class="schedule-timeblock">
+
+									<datetime class="schedule-timeblock-time">9:10 AM</datetime>
+
+									<div class="schedule-timeblock-wrap">
+
+										
+										
+											
+
+<article style="border-color: #2da6a3" class="schedule-item track-all track-stream-processing-track style-block">
+	<h1 class="schedule-item-title"><a href="https://kafka-summit.org/sessions/ksql-201-a-deep-dive-into-query-processing/">KSQL 201: A Deep Dive into Query Processing</a></h1>
+	<div class="schedule-item-meta">
+		<p class="schedule-item-length">40 mins</p>
+		<p class="schedule-item-authors"><a href="https://www.confluent.io/kafka-summit-london18/ksql-201-a-deep-dive-into-query-processing" target="_blank">Video & Slides</a></p>		<p class="schedule-item-authors"><a href="https://kafka-summit.org/speakers/hojjat-jafarpour/">Hojjat Jafarpour, Confluent</a></p>	</div>
+</article>
+										
+											
+
+<article style="border-color: #5a62a6" class="schedule-item track-all track-streaming-data-pipelines-track style-block">
+	<h1 class="schedule-item-title"><a href="https://kafka-summit.org/sessions/ooyala-adtech-liberating-data-streams-kafka-friends/">Ooyala Adtech: Liberating Data Streams with Kafka and Friends</a></h1>
+	<div class="schedule-item-meta">
+		<p class="schedule-item-length">40 mins</p>
+		<p class="schedule-item-authors"><a href="https://www.confluent.io/kafka-summit-london18/ooyala-adtech-liberating-data-streams-with-kafka-and-friends" target="_blank">Video & Slides</a></p>		<p class="schedule-item-authors"><a href="https://kafka-summit.org/speakers/stanislav-chizhov/">Stanislav Chizhov, Ooyala</a></p>	</div>
+</article>
+										
+											
+
+<article style="border-color: #dd8f1a" class="schedule-item track-all track-internals-track style-block">
+	<h1 class="schedule-item-title"><a href="https://kafka-summit.org/sessions/testing-the-beast/">Testing the Beast</a></h1>
+	<div class="schedule-item-meta">
+		<p class="schedule-item-length">40 mins</p>
+		<p class="schedule-item-authors"><a href="https://www.confluent.io/kafka-summit-london18/testing-the-beast" target="_blank">Video & Slides</a></p>		<p class="schedule-item-authors"><a href="https://kafka-summit.org/speakers/julian-harty/">Julian Harty, Commercetest Limited</a></p>	</div>
+</article>
+										
+									</div>
+
+								</div>
+
+							
+								<div class="schedule-timeblock">
+
+									<datetime class="schedule-timeblock-time">10:00 AM</datetime>
+
+									<div class="schedule-timeblock-wrap">
+
+										
+										
+											
+
+<article style="border-color: #2da6a3" class="schedule-item track-all track-stream-processing-track style-block">
+	<h1 class="schedule-item-title"><a href="https://kafka-summit.org/sessions/powering-olympic-games-coverage-kafka-streams/">Powering Olympic Games Coverage Through Kafka Streams</a></h1>
+	<div class="schedule-item-meta">
+		<p class="schedule-item-length">40 mins</p>
+		<p class="schedule-item-authors"><a href="https://www.confluent.io/kafka-summit-london18/powering-olympic-games-coverage-through-kafka-streams" target="_blank">Video & Slides</a></p>		<p class="schedule-item-authors"><a href="https://kafka-summit.org/speakers/casper-koning/">Casper Koning, Gracenote Sports</a></p>	</div>
+</article>
+										
+											
+
+<article style="border-color: #5a62a6" class="schedule-item track-all track-streaming-data-pipelines-track style-block">
+	<h1 class="schedule-item-title"><a href="https://kafka-summit.org/sessions/distributed-data-quality-technical-solutions-organizational-scaling/">Distributed Data Quality &#8211; Technical Solutions for Organizational Scaling</a></h1>
+	<div class="schedule-item-meta">
+		<p class="schedule-item-length">40 mins</p>
+		<p class="schedule-item-authors"><a href="https://www.confluent.io/kafka-summit-london18/distributed-data-quality-technical-solutions-for-organizational-scaling" target="_blank">Video & Slides</a></p>		<p class="schedule-item-authors"><a href="https://kafka-summit.org/speakers/justin-cunningham-3/">Justin Cunningham, Yelp</a></p>	</div>
+</article>
+										
+											
+
+<article style="border-color: #dd8f1a" class="schedule-item track-all track-internals-track style-block">
+	<h1 class="schedule-item-title"><a href="https://kafka-summit.org/sessions/kafka-service-offering-tale-security-multi-tenancy/">Kafka as a Service: A Tale of Security and Multi-Tenancy</a></h1>
+	<div class="schedule-item-meta">
+		<p class="schedule-item-length">40 mins</p>
+		<p class="schedule-item-authors"><a href="https://www.confluent.io/kafka-summit-london18/kafka-as-a-service-a-tale-of-security-and-multi-tenancy" target="_blank">Video & Slides</a></p>		<p class="schedule-item-authors"><a href="https://kafka-summit.org/speakers/charly-molter/">Charly Molter, Apple</a>; <a href="https://kafka-summit.org/speakers/piyush-vijay/">Piyush Vijay, Apple</a></p>	</div>
+</article>
+										
+									</div>
+
+								</div>
+
+							
+								<div class="schedule-timeblock">
+
+									<datetime class="schedule-timeblock-time">10:45 AM</datetime>
+
+									<div class="schedule-timeblock-wrap">
+
+										
+										
+											
+
+<article  class="schedule-item track-all style-full">
+	<h1 class="schedule-item-title"><a href="https://kafka-summit.org/sessions/coffee-break/">Coffee Break</a></h1>
+	<div class="schedule-item-meta">
+		<p class="schedule-item-length">30 mins</p>
+					</div>
+</article>
+										
+									</div>
+
+								</div>
+
+							
+								<div class="schedule-timeblock">
+
+									<datetime class="schedule-timeblock-time">11:20 AM</datetime>
+
+									<div class="schedule-timeblock-wrap">
+
+										
+										
+											
+
+<article style="border-color: #2da6a3" class="schedule-item track-all track-stream-processing-track style-block">
+	<h1 class="schedule-item-title"><a href="https://kafka-summit.org/sessions/building-queryable-kafka-streams-analytics-engine-ingrating-druid/">Building a Queryable Kafka Streams Analytics Engine and Integrating it with Druid</a></h1>
+	<div class="schedule-item-meta">
+		<p class="schedule-item-length">40 mins</p>
+		<p class="schedule-item-authors"><a href="https://www.confluent.io/kafka-summit-london18/building-a-queryable-kafka-streams-analytics-engine-and-integrating-it-with-druid" target="_blank">Video & Slides</a></p>		<p class="schedule-item-authors"><a href="https://kafka-summit.org/speakers/kiran-gilvaz/">Kiran Gilvaz, IBM</a>; <a href="https://kafka-summit.org/speakers/vihad-hashemian/">Vahid Hashemian, IBM</a></p>	</div>
+</article>
+										
+											
+
+<article style="border-color: #5a62a6" class="schedule-item track-all track-streaming-data-pipelines-track style-block">
+	<h1 class="schedule-item-title"><a href="https://kafka-summit.org/sessions/look-ma-no-code-building-streaming-data-pipelines-apache-kafka-ksql/">Look Ma, no Code! Building Streaming Data Pipelines with Apache Kafka and KSQL</a></h1>
+	<div class="schedule-item-meta">
+		<p class="schedule-item-length">40 mins</p>
+		<p class="schedule-item-authors"><a href="https://www.confluent.io/kafka-summit-london18/look-ma-no-code-building-streaming-data-pipelines-with-apache-kafka-and-ksql" target="_blank">Video & Slides</a></p>		<p class="schedule-item-authors"><a href="https://kafka-summit.org/speakers/robin-moffatt/">Robin Moffatt, Confluent</a></p>	</div>
+</article>
+										
+											
+
+<article style="border-color: #dd8f1a" class="schedule-item track-all track-internals-track style-block">
+	<h1 class="schedule-item-title"><a href="https://kafka-summit.org/sessions/distributing-computing-key-player-corebanking-platforms/">Distributing Computing &#8211; Key Player in Corebanking Platforms</a></h1>
+	<div class="schedule-item-meta">
+		<p class="schedule-item-length">40 mins</p>
+		<p class="schedule-item-authors"><a href="https://www.confluent.io/kafka-summit-london18/distributing-computing-key-player-in-corebanking-platforms" target="_blank">Video & Slides</a></p>		<p class="schedule-item-authors"><a href="https://kafka-summit.org/speakers/mikhail-khasin/">Mikhail Khasin, Sberbank</a></p>	</div>
+</article>
+										
+									</div>
+
+								</div>
+
+							
+								<div class="schedule-timeblock">
+
+									<datetime class="schedule-timeblock-time">12:10 PM</datetime>
+
+									<div class="schedule-timeblock-wrap">
+
+										
+										
+											
+
+<article style="border-color: #2da6a3" class="schedule-item track-all track-stream-processing-track style-block">
+	<h1 class="schedule-item-title"><a href="https://kafka-summit.org/sessions/using-multiple-sql-engines-fun-pushing-filters-ksql-beam-spark/">Using Multiple SQL Engines for Fun; Pushing Down Filters to KSQL from BEAM &#038; Spark</a></h1>
+	<div class="schedule-item-meta">
+		<p class="schedule-item-length">40 mins</p>
+		<p class="schedule-item-authors"><a href="https://www.confluent.io/kafka-summit-london18/using-multiple-sql-engines-for-fun-pushing-down-filters-to-ksql-from-beam-spark" target="_blank">Video & Slides</a></p>		<p class="schedule-item-authors"><a href="https://kafka-summit.org/speakers/holden-karau-2/">Holden Karau, Google</a>; <a href="https://kafka-summit.org/speakers/gris-cuevas/">Gris Cuevas, Google</a></p>	</div>
+</article>
+										
+											
+
+<article style="border-color: #5a62a6" class="schedule-item track-all track-streaming-data-pipelines-track style-block">
+	<h1 class="schedule-item-title"><a href="https://kafka-summit.org/sessions/make-connections-count-journey-building-kafka-connectors/">&#8220;Make Your Connections Count&#8221; &#8211; A Journey Building Kafka Connectors</a></h1>
+	<div class="schedule-item-meta">
+		<p class="schedule-item-length">40 mins</p>
+		<p class="schedule-item-authors"><a href="https://www.confluent.io/kafka-summit-london18/make-your-connections-count-a-journey-building-kafka-connectors" target="_blank">Video & Slides</a></p>		<p class="schedule-item-authors"><a href="https://kafka-summit.org/speakers/pegertofernandez/">Pegerto	Fernandez, OpenCredo</a></p>	</div>
+</article>
+										
+											
+
+<article style="border-color: #dd8f1a" class="schedule-item track-all track-internals-track style-block">
+	<h1 class="schedule-item-title"><a href="https://kafka-summit.org/sessions/urp-excuse-three-metrics-know/">URP? Excuse You! The Three Metrics You Have to Know</a></h1>
+	<div class="schedule-item-meta">
+		<p class="schedule-item-length">40 mins</p>
+		<p class="schedule-item-authors"><a href="https://www.confluent.io/kafka-summit-london18/urp-excuse-you-the-three-metrics-you-have-to-know" target="_blank">Video & Slides</a></p>		<p class="schedule-item-authors"><a href="https://kafka-summit.org/speakers/todd-palino-4/">Todd Palino, LinkedIn</a></p>	</div>
+</article>
+										
+									</div>
+
+								</div>
+
+							
+						</section>
+
+						<div class="schedule-pre">
+
+							
+	
+	
+						</div>
+
+					</div>
+
+				
+			
+		</div>
+
+	</div>
+
+</div>
+
+<style>
+.gdpr * {
+    font-family: Helvetica, Arial, sans-serif !important;
+    text-transform: none !important;
+    letter-spacing: 0 !important;
+    color: #455561;
+    background: none;
+    -webkit-box-shadow: none;
+    box-shadow: none;
+    text-shadow: none;
+    outline: none;
+    border: none;
+    margin: 0;
+    padding: 0
+}
+
+.gdpr button {
+    color: #000;
+    font-weight: normal;
+    font-size: 14px;
+    margin: 0;
+    -webkit-transform: scale(1);
+    -ms-transform: scale(1);
+    transform: scale(1);
+    line-height: 1.5;
+    display: block;
+    min-width: auto;
+    max-width: auto
+}
+
+.gdpr.gdpr-privacy-bar {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    background: rgba(187, 185, 185, 0.9);
+    width: 100%;
+    color: #fff;
+    z-index: 9999999
+}
+
+.gdpr.gdpr-privacy-bar .gdpr-wrapper {
+    padding: 20px 40px;
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-pack: justify;
+    -ms-flex-pack: justify;
+    justify-content: space-between;
+    -webkit-box-align: center;
+    -ms-flex-align: center;
+    align-items: center;
+    -webkit-box-sizing: border-box;
+    box-sizing: border-box
+}
+
+@media screen and (max-width: 1024px) {
+    .gdpr.gdpr-privacy-bar .gdpr-wrapper {
+        -webkit-box-orient: vertical;
+        -webkit-box-direction: normal;
+        -ms-flex-direction: column;
+        flex-direction: column;
+        -webkit-box-align: center;
+        -ms-flex-align: center;
+        align-items: center
+    }
+}
+
+.gdpr.gdpr-privacy-bar .gdpr-wrapper:after {
+    content: "";
+    display: table;
+    clear: both
+}
+
+.gdpr.gdpr-privacy-bar .gdpr-wrapper p {
+    margin: 0;
+    font-size: 14px;
+    font-weight: normal
+}
+
+.gdpr.gdpr-privacy-bar .gdpr-wrapper .gdpr-content {
+    -webkit-box-flex: 1;
+    -ms-flex: 1;
+    flex: 1;
+    padding-right: 200px
+}
+
+.gdpr.gdpr-privacy-bar .gdpr-wrapper .gdpr-content p {
+    color: #ffffff
+}
+
+.gdpr.gdpr-privacy-bar .gdpr-wrapper .gdpr-content a {
+    color: #fff;
+    text-decoration: underline
+}
+
+@media screen and (max-width: 1024px) {
+    .gdpr.gdpr-privacy-bar .gdpr-wrapper .gdpr-content {
+        padding-right: 0;
+        padding-bottom: 20px
+    }
+}
+
+.gdpr.gdpr-privacy-bar .gdpr-wrapper .gdpr-right {
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-align: center;
+    -ms-flex-align: center;
+    align-items: center
+}
+
+@media screen and (max-width: 640px) {
+    .gdpr.gdpr-privacy-bar .gdpr-wrapper .gdpr-right {
+        -webkit-box-orient: vertical;
+        -webkit-box-direction: normal;
+        -ms-flex-direction: column;
+        flex-direction: column
+    }
+}
+
+.gdpr.gdpr-privacy-bar .gdpr-wrapper .gdpr-right button:first-of-type {
+    margin-left: 10px
+}
+
+@media screen and (max-width: 640px) {
+    .gdpr.gdpr-privacy-bar .gdpr-wrapper .gdpr-right button:first-of-type {
+        margin: 0 0 10px 7px
+    }
+    .gdpr.gdpr-privacy-bar .gdpr-wrapper .gdpr-right button:first-of-type:before {
+        left: -7px
+    }
+}
+
+.gdpr.gdpr-privacy-bar .gdpr-wrapper .gdpr-right button:last-of-type {
+    margin-right: 0;
+    margin-left: 20px
+}
+
+@media screen and (max-width: 640px) {
+    .gdpr.gdpr-privacy-bar .gdpr-wrapper .gdpr-right button:last-of-type {
+        margin: 0
+    }
+}
+
+
+
+
+
+.gdpr.gdpr-privacy-bar button {
+    margin: 0 5px;
+    padding: 9px 10px
+}
+
+@media screen and (max-width: 640px) {
+    .gdpr.gdpr-privacy-bar button {
+        margin: 0
+    }
+}
+
+.gdpr.gdpr-privacy-bar .gdpr-agreement {
+    position: relative;
+    font-size: 13px;
+    font-weight: normal;
+    padding: 12px 36px 12px 76px;
+    height: auto;
+    line-height: 1.4285714;
+    white-space: normal;
+    margin: 0;
+    border-width: 1px;
+    border-style: solid;
+    border-radius: 3px;
+    -webkit-box-sizing: border-box;
+    box-sizing: border-box;
+    background: #0085ba;
+    border-color: #0073aa #006799 #006799;
+    -webkit-box-shadow: 0 1px 0 #006799;
+    box-shadow: 0 1px 0 #006799;
+    color: #fff;
+    text-decoration: none;
+    text-shadow: 0 -1px 1px #006799, 1px 0 1px #006799, 0 1px 1px #006799, -1px 0 1px #006799
+}
+
+.gdpr.gdpr-privacy-bar .gdpr-agreement:hover {
+    background: #008ec2;
+    border-color: #006799
+}
+
+.gdpr.gdpr-privacy-bar .gdpr-agreement:hover:before {
+    font-size: 26px;
+    background: #fafafa;
+    color: #00b9eb
+}
+
+.gdpr.gdpr-privacy-bar .gdpr-agreement:active,
+.gdpr.gdpr-privacy-bar .gdpr-agreement:focus {
+    background: #0073aa;
+    border-color: #006799;
+    -webkit-box-shadow: inset 0 2px 0 #006799;
+    box-shadow: inset 0 2px 0 #006799;
+    vertical-align: top
+}
+
+.gdpr.gdpr-privacy-bar .gdpr-agreement:active:before,
+.gdpr.gdpr-privacy-bar .gdpr-agreement:focus:before {
+    -webkit-box-shadow: inset 0 2px 0 #ccc;
+    box-shadow: inset 0 2px 0 #ccc;
+    vertical-align: top
+}
+
+.gdpr.gdpr-privacy-bar .gdpr-agreement:before {
+    content: '\2713';
+    top: -1px;
+    bottom: -1px;
+    left: -1px;
+    position: absolute;
+    width: 42.5px;
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-pack: center;
+    -ms-flex-pack: center;
+    justify-content: center;
+    -webkit-box-align: center;
+    -ms-flex-align: center;
+    align-items: center;
+    -webkit-transition: all 0.2s;
+    -o-transition: all 0.2s;
+    transition: all 0.2s;
+    -webkit-transform: translateZ(0);
+    transform: translateZ(0);
+    text-shadow: none;
+    text-decoration: none;
+    font-size: 13px;
+    line-height: 26px;
+    cursor: pointer;
+    border-width: 1px;
+    border-style: solid;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+    border-top-left-radius: 3px;
+    border-bottom-left-radius: 3px;
+    white-space: nowrap;
+    -webkit-box-sizing: border-box;
+    box-sizing: border-box;
+    color: #555;
+    border-color: #ccc;
+    background: #f7f7f7;
+    -webkit-box-shadow: 0 1px 0 #ccc;
+    box-shadow: 0 1px 0 #ccc;
+    vertical-align: top;
+    border-right: none
+}
+
+.footer-main{
+    background-color:#000;
+}
+</style>
+<br class="clear schedule-break">
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery-cookie/1.4.1/jquery.cookie.min.js"></script>
+<script src="//app-ab17.marketo.com/js/forms2/js/forms2.min.js"></script>
+<script>
+ $(document).ready(function(){
+
+     
+
+      setTimeout(function(){ 
+                  
+
+            $('.gdpr-privacy-bar').css('display','none');
+               
+
+                 (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+                    (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+                    m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+                    })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+                    ga('create', 'UA-68825110-1', 'auto');
+                    ga('require', 'displayfeatures');
+                    ga('send', 'pageview');
+
+                    /*document.writeln('<noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-NBVX4Z" height="0" width="0" style="display:none;visibility:hidden"></iframe></nosc'+'ript>');*/
+
+                 //Marketo 
+                 var didInit = false;
+                 function initMunchkin() {
+                    if(didInit === false) {
+                        didInit = true;
+                        Munchkin.init('582-QHX-262');
+                   }
+                 }
+
+
+                var s = document.createElement('script');
+                    s.type = 'text/javascript';
+                    s.async = true;
+                    s.src = '//munchkin.marketo.net/munchkin-beta.js';
+                    s.onreadystatechange = function() {
+                        if (this.readyState == 'complete' || this.readyState == 'loaded') {
+                          initMunchkin();
+                         }
+                    };
+    
+                    s.onload = initMunchkin;
+   
+                    document.getElementsByTagName('head')[0].appendChild(s);
+    
+            
+
+               }, 20000);
+
+              $(".gdpr-agreement").click(function(){            
+           
+
+           
+
+                $('.gdpr-privacy-bar').css('display','none');
+     
+              
+                 (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+                    (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+                    m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+                    })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+                    ga('create', 'UA-68825110-1', 'auto');
+                    ga('require', 'displayfeatures');
+                    ga('send', 'pageview');
+
+                 //Marketo 
+                 var didInit = false;
+                 function initMunchkin() {
+                    if(didInit === false) {
+                        didInit = true;
+                        Munchkin.init('582-QHX-262');
+                   }
+                 }
+
+              
+
+
+
+                var s = document.createElement('script');
+                    s.type = 'text/javascript';
+                    s.async = true;
+                    s.src = '//munchkin.marketo.net/munchkin-beta.js';
+                    s.onreadystatechange = function() {
+                        if (this.readyState == 'complete' || this.readyState == 'loaded') {
+                          initMunchkin();
+                         }
+                    };
+    
+                    s.onload = initMunchkin;
+   
+                    document.getElementsByTagName('head')[0].appendChild(s);
+    
+            });
+         });
+      </script>
+
+<div class="footer-main">
+
+	<div class="footer-properties-wrap">
+
+		<div class="footer-properties">
+
+			<div class="signup">
+				<h1 class="footer-title">Sign up for updates</h1>
+				<form id="mktoForm_1384"></form>
+			</div>
+
+															<div class="social">
+				<h1 class="footer-title">#kafkasummit</h1>
+				<ul>
+					<li><a href="https://www.facebook.com/confluentinc/"><i class="icon-facebook"></i> <span>Facebook</span></a></li>					<li><a href="https://twitter.com/ConfluentInc"><i class="icon-twitter"></i> <span>Twitter</span></a></li>					<li><a href="https://www.linkedin.com/company/confluent"><i class="icon-linkedin"></i> <span>LinkedIn</span></a></li>					<li><a href="mailto:organizers@kafka-summit.org"><i class="icon-mail"></i> <span>Email us</span></a></li>				</ul>
+			</div>
+
+		</div>
+
+	</div>
+
+	<div class="footer-main-inner">
+
+		<p class="organizer"><span>Organized by</span> <a target="_blank" href="http://confluent.io"><img src="https://kafka-summit.org/wp-content/themes/wpx/assets/images/logo-confluent.png" alt="Confluent Logo" data-rjs="https://kafka-summit.org/wp-content/themes/wpx/assets/images/logo-confluent@2x.png"></a></p>
+
+		<p class="credits">All rights reserved. Apache<sup>&reg;</sup>, Apache Kafka, Kafka, and the Apache Kafka logo are either registered trademarks or trademarks of the Apache Software Foundation in the United States and/or other countries. <a href="http://kafkasummit.wpengine.com/code-of-conduct/">Code of Conduct</a> <span> Copyright &copy; Confluent, Inc. 2016 - 2018</span> </p>
+
+	</div>
+
+</div>
+
+<script>var SITE_ROOT = 'https://kafka-summit.org';</script>
+<script>var SITE_ASSETS = 'https://kafka-summit.org/wp-content/themes/wpx/assets';</script>
+<script>var SITE_THEME = 'https://kafka-summit.org/wp-content/themes/wpx';</script>
+
+<div class="gdpr gdpr-privacy-bar" style="">
+	<div class="gdpr-wrapper">
+		<div class="gdpr-content">
+			<p>
+				We use cookies to understand how you use our site and to improve your experience.  Click <a href="https://www.confluent.io/cookies">here</a> to learn more or change your cookie settings.  By continuing to browse, you agree to our use of cookies.</p>
+		</div>
+		<div class="gdpr-right">
+			<button class="gdpr-agreement" type="button">OK</button>
+		</div>
+	</div>
+</div>
+<script type='text/javascript' src='//maps.google.com/maps/api/js?key=AIzaSyCtPeQ1Jm6iagLI2JnC-T7BfUAs3o4Mb1A'></script>
+<script type='text/javascript' src='https://kafka-summit.org/wp-content/themes/wpx/assets/js/app.min.js'></script>
+<script type='text/javascript' src='https://kafka-summit.org/wp-includes/js/wp-embed.min.js?ver=4.9.6'></script>
+
+
+
+</body>

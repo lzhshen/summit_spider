@@ -229,7 +229,8 @@ class PdfSlideDownloaderUtils():
         # convert to pdf
         cmd_str = "convert %s/*.jpg* %s/%s" % (srcDir, dstDir, fname)
         print "       %s" % (cmd_str)
-        os.system(cmd_str)
+        execute_cmd(cmd_str)
+        #os.system(cmd_str)
 
         # delete temp image files
         #cmd_str = "rm -f %s/*" % (srcDir)

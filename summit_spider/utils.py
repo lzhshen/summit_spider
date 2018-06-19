@@ -1,4 +1,9 @@
 import re
+import subprocess, shlex
+
+def execute_cmd(cmd_str):
+  call_params = shlex.split(cmd_str)
+  subprocess.call(call_params, stderr=subprocess.STDOUT)
 
 def gen_cookie_map(cstr):
   cmap = {}
